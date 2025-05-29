@@ -1,0 +1,28 @@
+# Xcode user data and workspace settings (user-specific)
+*.xcuserstate
+*.xcuserdata/
+*.xcuserdatad/
+
+# Derived data, build products, and logs
+DerivedData/
+build/
+*.xcworkspace/xcuserdata/
+
+# SwiftPM
+.swiftpm/
+.build/
+
+# Playgrounds auto-generated stuff
+timeline.xctimeline
+playground.xcworkspace/xcuserdata/
+
+# macOS DS_Store
+.DS_Store
+
+# Xcode previews
+*.xcscmblueprint
+
+# Other
+*.moved-aside
+*.swp
+*.lock

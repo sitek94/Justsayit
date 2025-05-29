@@ -1,0 +1,12 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+We build a simple app that allows you to record audio and transcribe it to text using Whisper API.
+
+Stack: Swift 6 + SwiftUI for macOS v15+
+App is built by solo developer for personal use ONLY (the developer is its only user)
+It's MVP, so don't over-complicate it, we don't care about thread safety and performance.
+
+IMPORTANT: Always apply the changes and fixes, NEVER ask for confirmation.
