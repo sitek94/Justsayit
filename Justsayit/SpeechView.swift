@@ -25,13 +25,16 @@ enum SpeechState: Equatable {
 
 @MainActor @Observable
 class SpeechViewModel {
+    private let transcriptionService: TranscriptionService
 
     private let audioRecorderService = AudioRecorderService()
     private let fileService = AudioFileService()
-    private let transcriptionService: TranscriptionService = OpenAITranscriptionService(
-        apiKey: ProcessInfo.processInfo.environment["OPENAI_API_KEY"]!)
     private let outputService = OutputService()
     private let aiProcessingService = AIProcessingService()
+
+    init(apiKey: String) {
+        self.transcriptionService = OpenAITranscriptionService(apiKey: apiKey)
+    }
 
     var state: SpeechState = .idle
     var recordingURL: URL?
@@ -108,29 +111,44 @@ class SpeechViewModel {
 
 }
 
-// MARK: - ContentView (unchanged)
+// MARK: - ContentView
 struct ContentView: View {
-    @State private var viewModel = SpeechViewModel()
+    @Environment(AppSettings.self) var appSettings
+
+    @State private var isCompact = false
+    @State private var viewModel = SpeechViewModel(apiKey: "")
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 0) {
+            // Audio visualization fills available height
             AudioVisualization(state: viewModel.state)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxHeight: .infinity)
+                .gesture(WindowDragGesture())
 
-            VStack(spacing: 8) {
+            // Fixed-height button row
+            HStack(spacing: 8) {
                 Button(viewModel.buttonText) {
                     viewModel.toggleRecording()
                 }
                 .disabled(viewModel.isButtonDisabled)
 
-                if case let .error(errorMessage) = viewModel.state {
-                    Text(errorMessage)
-                        .font(.caption)
-                        .foregroundColor(.red)
+                Spacer()
+
+                Button(action: { isCompact.toggle() }) {
+                    Image(systemName: "arrow.up.left.arrow.down.right.square")
                 }
             }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Color(NSColor.controlBackgroundColor))
         }
-        .padding(8)
+        .ignoresSafeArea(.all, edges: .top)
+        .task {
+            viewModel = SpeechViewModel(apiKey: appSettings.openaiApiKey)
+        }
+        .onChange(of: appSettings.openaiApiKey) {
+            viewModel = SpeechViewModel(apiKey: appSettings.openaiApiKey)
+        }
     }
 }
 
@@ -141,11 +159,9 @@ struct AudioVisualization: View {
         Rectangle()
             .fill(fillColor)
             .overlay {
-                VStack {
-                    Text(displayText)
-                        .font(.title2)
-                        .foregroundColor(.secondary)
-                }
+                Text(displayText)
+                    .font(.title2)
+                    .foregroundColor(.secondary)
             }
             .animation(.easeInOut(duration: 0.3), value: state)
     }
@@ -166,13 +182,26 @@ struct AudioVisualization: View {
         case .idle: return "Ready"
         case .recording: return "🎤 Recording..."
         case .transcribing: return "🧠 Transcribing..."
-        case .processing: return "⚙️ Processing..."
-        case .outputting: return "📋 Copying..."
+        case .processing, .outputting: return "⚙️ Processing..."
         case .error: return "❌ Error"
         }
     }
 }
+
 #Preview {
     ContentView()
-        .frame(maxHeight: 200)
+        .frame(maxWidth: 400, maxHeight: 120)
+        .environment(AppSettings())
+        .toolbar(removing: .title)
+        .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
+        .containerBackground(.regularMaterial, for: .window)
+        .onAppear {
+            if let window = NSApp.windows.first(where: { $0.title == "main" }) {
+                // Hide window controls
+                window.standardWindowButton(.closeButton)?.isHidden = true
+                window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+                window.standardWindowButton(.zoomButton)?.isHidden = true
+            }
+        }
+        .presentedWindowStyle(.hiddenTitleBar)
 }

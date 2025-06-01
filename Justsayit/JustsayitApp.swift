@@ -4,7 +4,6 @@
 //
 //  Created by Maciej Sitkowski on 29/05/2025.
 //
-
 import SwiftUI
 
 @Observable
@@ -21,10 +20,23 @@ struct JustsayitApp: App {
     @State private var appSettings = AppSettings()
 
     var body: some Scene {
-        WindowGroup {
+        Window("main", id: "main") {
             ContentView()
-                .frame(minWidth: 400, minHeight: 300)
+                .environment(appSettings)
+                .toolbar(removing: .title)
+                .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
+                .containerBackground(.regularMaterial, for: .window)
+                .onAppear {
+                    if let window = NSApp.windows.first(where: { $0.title == "main" }) {
+                        // Hide window controls
+                        window.standardWindowButton(.closeButton)?.isHidden = true
+                        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+                        window.standardWindowButton(.zoomButton)?.isHidden = true
+                    }
+                }
+                .presentedWindowStyle(.hiddenTitleBar)
         }
+        .windowBackgroundDragBehavior(.enabled)
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
 
