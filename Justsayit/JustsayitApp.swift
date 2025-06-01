@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct JustsayitApp: App {
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .frame(minWidth: 400, minHeight: 300)
         }
+        .windowStyle(.hiddenTitleBar)
+        .windowResizability(.contentSize)
     }
 }

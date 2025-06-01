@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A251C1712DE915AA00183533 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = A251C1702DE915AA00183533 /* HotKey */; };
+		A251C2422DEBE07A00183533 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = A251C2412DEBE07A00183533 /* OpenAI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A251C15D2DE90EAD00183533 /* Justsayit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Justsayit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A251C2422DEBE07A00183533 /* OpenAI in Frameworks */,
+				A251C1712DE915AA00183533 /* HotKey in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +72,8 @@
 			);
 			name = Justsayit;
 			packageProductDependencies = (
+				A251C1702DE915AA00183533 /* HotKey */,
+				A251C2412DEBE07A00183533 /* OpenAI */,
 			);
 			productName = Justsayit;
 			productReference = A251C15D2DE90EAD00183533 /* Justsayit.app */;
@@ -94,6 +103,10 @@
 			);
 			mainGroup = A251C1542DE90EAD00183533;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A251C16F2DE915AA00183533 /* XCRemoteSwiftPackageReference "HotKey" */,
+				A251C2402DEBE07A00183533 /* XCRemoteSwiftPackageReference "OpenAI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A251C15E2DE90EAD00183533 /* Products */;
 			projectDirPath = "";
@@ -248,17 +261,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Justsayit/Justsayit.entitlements;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Justsayit/Resources/Justsayit.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Justsayit/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Justsayit/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8N24XF84J5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs access to the microphone to record voice notes.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires microphone access to record audio for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -276,17 +291,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Justsayit/Justsayit.entitlements;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = Justsayit/Resources/Justsayit.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Justsayit/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Justsayit/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8N24XF84J5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app needs access to the microphone to record voice notes.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires microphone access to record audio for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -321,6 +338,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A251C16F2DE915AA00183533 /* XCRemoteSwiftPackageReference "HotKey" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soffes/HotKey";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		A251C2402DEBE07A00183533 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A251C1702DE915AA00183533 /* HotKey */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A251C16F2DE915AA00183533 /* XCRemoteSwiftPackageReference "HotKey" */;
+			productName = HotKey;
+		};
+		A251C2412DEBE07A00183533 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A251C2402DEBE07A00183533 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A251C1552DE90EAD00183533 /* Project object */;
 }
