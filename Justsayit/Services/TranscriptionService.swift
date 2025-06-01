@@ -8,7 +8,7 @@ enum TranscriptionError: LocalizedError {
     case apiKeyMissing
     case networkError(String)
     case apiError(String)
-    
+
     var errorDescription: String? {
         switch self {
         case .failedToLoadAudioFile:
@@ -25,8 +25,6 @@ enum TranscriptionError: LocalizedError {
     }
 }
 
-
-
 // MARK: - Transcription Service Protocol
 protocol TranscriptionService: Sendable {
     func transcribe(audioURL: URL) async throws -> String
@@ -35,26 +33,29 @@ protocol TranscriptionService: Sendable {
 // MARK: - OpenAI Transcription Service
 actor OpenAITranscriptionService: TranscriptionService {
     private let openAI: OpenAI
-    
+
     init(apiKey: String) {
         self.openAI = OpenAI(apiToken: apiKey)
     }
-    
+
     func transcribe(audioURL: URL) async throws -> String {
-        guard let fileType = AudioTranscriptionQuery.FileType(rawValue: audioURL.pathExtension.lowercased()) else {
+        guard
+            let fileType = AudioTranscriptionQuery.FileType(
+                rawValue: audioURL.pathExtension.lowercased())
+        else {
             throw TranscriptionError.invalidAudioFormat
         }
-        
+
         guard let audioData = try? Data(contentsOf: audioURL) else {
             throw TranscriptionError.failedToLoadAudioFile
         }
-        
+
         let query = AudioTranscriptionQuery(
             file: audioData,
             fileType: fileType,
             model: .whisper_1
         )
-        
+
         do {
             let result = try await openAI.audioTranscriptions(query: query)
             return result.text

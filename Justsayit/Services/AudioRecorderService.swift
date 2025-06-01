@@ -5,7 +5,7 @@ import Foundation
 actor AudioRecorderService {
     private var audioRecorder: AVAudioRecorder?
     private var isCurrentlyRecording = false
-    
+
     private let audioSettings: [String: Any] = [
         AVFormatIDKey: Int(kAudioFormatLinearPCM),
         AVSampleRateKey: 44100.0,
@@ -15,7 +15,7 @@ actor AudioRecorderService {
         AVLinearPCMIsBigEndianKey: false,
         AVLinearPCMIsFloatKey: false,
     ]
-    
+
     // MARK: - Permission Management
     func checkPermission() async -> Bool {
         await withCheckedContinuation { continuation in
@@ -32,55 +32,55 @@ actor AudioRecorderService {
             }
         }
     }
-    
+
     func requestPermission() async throws {
         guard await checkPermission() else {
             throw AudioRecorderError.permissionDenied
         }
     }
-    
+
     // MARK: - Recording Control
     func startRecording(to url: URL) async throws {
         try await requestPermission()
-        
+
         guard !isCurrentlyRecording else {
             throw AudioRecorderError.alreadyRecording
         }
-        
+
         do {
             audioRecorder = try AVAudioRecorder(url: url, settings: audioSettings)
-            
+
             guard let recorder = audioRecorder else {
                 throw AudioRecorderError.setupFailed("Failed to create recorder")
             }
-            
+
             guard recorder.prepareToRecord() else {
                 throw AudioRecorderError.setupFailed("Failed to prepare recorder")
             }
-            
+
             guard recorder.record() else {
                 throw AudioRecorderError.setupFailed("Failed to start recording")
             }
-            
+
             isCurrentlyRecording = true
-            
+
         } catch let error as AudioRecorderError {
             throw error
         } catch {
             throw AudioRecorderError.recordingFailed(error.localizedDescription)
         }
     }
-    
+
     func stopRecording() async throws {
         guard isCurrentlyRecording else {
             throw AudioRecorderError.notRecording
         }
-        
+
         audioRecorder?.stop()
         audioRecorder = nil
         isCurrentlyRecording = false
     }
-    
+
     func cancelRecording() async {
         if isCurrentlyRecording {
             audioRecorder?.stop()
@@ -88,12 +88,12 @@ actor AudioRecorderService {
             isCurrentlyRecording = false
         }
     }
-    
+
     // MARK: - State Queries
     func getRecordingStatus() -> Bool {
         return isCurrentlyRecording
     }
-    
+
     func getCurrentRecordingTime() -> TimeInterval {
         guard isCurrentlyRecording, let recorder = audioRecorder else {
             return 0
@@ -109,7 +109,7 @@ enum AudioRecorderError: Error, LocalizedError {
     case recordingFailed(String)
     case alreadyRecording
     case notRecording
-    
+
     var errorDescription: String? {
         switch self {
         case .permissionDenied:

@@ -15,9 +15,22 @@
 		A251C15D2DE90EAD00183533 /* Justsayit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Justsayit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A251C2752DEBED6600183533 /* Exceptions for "Justsayit" folder in "Justsayit" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A251C15C2DE90EAD00183533 /* Justsayit */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A251C15F2DE90EAD00183533 /* Justsayit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A251C2752DEBED6600183533 /* Exceptions for "Justsayit" folder in "Justsayit" target */,
+			);
 			path = Justsayit;
 			sourceTree = "<group>";
 		};
@@ -272,6 +285,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Justsayit/Info.plist;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This app needs accessibility access to paste transcribed text";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires microphone access to record audio for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -302,6 +317,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Justsayit/Info.plist;
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This app needs accessibility access to paste transcribed text";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires microphone access to record audio for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (

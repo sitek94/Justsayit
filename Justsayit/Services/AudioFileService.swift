@@ -7,7 +7,7 @@ enum AudioFileError: Error, LocalizedError {
     case deletionFailed(String)
     case loadingFailed(String)
     case urlCreationFailed
-    
+
     var errorDescription: String? {
         switch self {
         case .directoryNotFound:
@@ -29,14 +29,14 @@ struct AudioRecording: Sendable {
     let url: URL
     let name: String
     let date: Date
-    
+
     var formattedDate: String {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         formatter.timeStyle = .short
         return formatter.string(from: date)
     }
-    
+
     var displayName: String {
         name.replacingOccurrences(of: "_", with: " ").capitalized
     }
@@ -46,18 +46,19 @@ struct AudioRecording: Sendable {
 actor AudioFileService {
     private let documentsDirectory: URL
     private let fileExtension = "wav"
-    
+
     init() {
-        self.documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-                    ?? FileManager.default.temporaryDirectory.appendingPathComponent("Justsayit")
+        self.documentsDirectory =
+            FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+            ?? FileManager.default.temporaryDirectory.appendingPathComponent("Justsayit")
     }
-    
+
     // MARK: - File URL Generation
     func createRecordingURL() -> URL {
         let fileName = "recording_\(Date().timeIntervalSince1970).\(fileExtension)"
         return documentsDirectory.appendingPathComponent(fileName)
     }
-    
+
     // MARK: - Loading Recordings
     func loadRecordings() async throws -> [AudioRecording] {
         do {
@@ -66,17 +67,17 @@ actor AudioFileService {
                 includingPropertiesForKeys: [.creationDateKey],
                 options: .skipsHiddenFiles
             )
-            
+
             let audioFiles = fileURLs.filter { url in
                 url.pathExtension.lowercased() == fileExtension
             }
-            
+
             let recordings = audioFiles.compactMap { url -> AudioRecording? in
                 do {
                     let resourceValues = try url.resourceValues(forKeys: [.creationDateKey])
                     let creationDate = resourceValues.creationDate ?? Date()
                     let fileName = url.deletingPathExtension().lastPathComponent
-                    
+
                     return AudioRecording(
                         url: url,
                         name: fileName,
@@ -87,14 +88,14 @@ actor AudioFileService {
                     return nil
                 }
             }
-            
-            return recordings.sorted { $0.date > $1.date } // Newest first
-            
+
+            return recordings.sorted { $0.date > $1.date }  // Newest first
+
         } catch {
             throw AudioFileError.loadingFailed(error.localizedDescription)
         }
     }
-    
+
     // MARK: - File Deletion
     func deleteRecording(at url: URL) async throws {
         do {
@@ -103,32 +104,32 @@ actor AudioFileService {
             throw AudioFileError.deletionFailed(error.localizedDescription)
         }
     }
-    
+
     func deleteRecordings(at urls: [URL]) async throws {
         for url in urls {
             try await deleteRecording(at: url)
         }
     }
-    
+
     // MARK: - File Information
     func getFileSize(for url: URL) throws -> Int64 {
         let resourceValues = try url.resourceValues(forKeys: [.fileSizeKey])
         return Int64(resourceValues.fileSize ?? 0)
     }
-    
+
     func fileExists(at url: URL) -> Bool {
         return FileManager.default.fileExists(atPath: url.path)
     }
-    
+
     // MARK: - Directory Management
     func getDocumentsDirectory() -> URL {
         return documentsDirectory
     }
-    
+
     func getTotalStorageUsed() async throws -> Int64 {
         let recordings = try await loadRecordings()
         var totalSize: Int64 = 0
-        
+
         for recording in recordings {
             do {
                 let size = try getFileSize(for: recording.url)
@@ -138,10 +139,10 @@ actor AudioFileService {
                 continue
             }
         }
-        
+
         return totalSize
     }
-    
+
     // MARK: - Utility Methods
     func formatFileSize(_ bytes: Int64) -> String {
         let formatter = ByteCountFormatter()
