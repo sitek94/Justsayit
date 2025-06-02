@@ -1,7 +1,8 @@
 # Xcode user data and workspace settings (user-specific)
-*.xcuserstate
-*.xcuserdata/
-*.xcuserdatad/
+Justsayit.xcodeproj/
+Justsayit.xcodeproj/project.xcworkspace/
+Justsayit.xcodeproj/xcuserdata/
+Justsayit.xcodeproj/xcuserdatad/
 
 # Derived data, build products, and logs
 DerivedData/
