@@ -4,6 +4,7 @@
 //
 //  Created by Maciej Sitkowski on 29/05/2025.
 //
+import Sparkle
 import SwiftUI
 
 @Observable
@@ -18,6 +19,15 @@ class AppSettings {
 @main
 struct JustsayitApp: App {
     @State private var appSettings = AppSettings()
+    private let updaterController: SPUStandardUpdaterController
+
+    init() {
+        updaterController = SPUStandardUpdaterController(
+            startingUpdater: true,
+            updaterDelegate: nil,
+            userDriverDelegate: nil
+        )
+    }
 
     var body: some Scene {
         Window("main", id: "main") {
@@ -39,6 +49,14 @@ struct JustsayitApp: App {
         .windowBackgroundDragBehavior(.enabled)
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
+//        .commands {
+//            CommandGroup(after: .appInfo) {
+//                Button("Check for updates…") {
+//                    updaterController.checkForUpdates()
+//                }
+//                .disabled(!updaterController.updater.canCheckForUpdates)
+//            }
+//        }
 
         Settings {
             SettingsView()

@@ -57,16 +57,8 @@ actor BusinessLogicService { }           // Thread-safe business logic
 - Dependency injection for testability
 
 ## Tool Usage
-- Context7: For latest Swift 6 APIs, compiler errors, or current best practices
-- Web search: For external service integrations, speech recognition APIs
-- Code examples: Always show complete, working implementations
-
-## Current Project Context
-Building a speech-to-text application with:
-- Audio recording (AVAudioRecorder wrapper)
-- File management (audio file storage/retrieval)  
-- Speech transcription (planned)
-- Webhook integration (planned)
-- Settings management (planned)
+- Use `Context7` MCP tool for latest Swift 6 and Swift UI APIs, compiler errors, or current best practices
+- Use `filesystem` MCP tool to access project files at: `$HOME/code/Justsayit`
+- Web search: For external service integrations, getting latest general information, etc.
 
 Focus on scalable architecture that can grow with new features while maintaining clean separation of concerns.
