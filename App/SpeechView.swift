@@ -7,9 +7,9 @@ enum SpeechError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .microphonePermissionRequired:
-            return "Microphone permission required"
+            "Microphone permission required"
         case .noRecordingURL:
-            return "No recording URL found"
+            "No recording URL found"
         }
     }
 }
@@ -33,7 +33,7 @@ class SpeechViewModel {
     private let aiProcessingService = AIProcessingService()
 
     init(apiKey: String) {
-        self.transcriptionService = OpenAITranscriptionService(apiKey: apiKey)
+        transcriptionService = OpenAITranscriptionService(apiKey: apiKey)
     }
 
     var state: SpeechState = .idle
@@ -43,21 +43,22 @@ class SpeechViewModel {
 
     var buttonText: String {
         switch state {
-        case .idle: return "Start"
-        case .recording: return "Stop"
+        case .idle: "Start"
+        case .recording: "Stop"
         default:
-            return "Processing..."
+            "Processing..."
         }
     }
 
     var isButtonDisabled: Bool {
         switch state {
-        case .idle, .recording, .error: return false
-        default: return true
+        case .idle, .recording, .error: false
+        default: true
         }
     }
 
     // MARK: - Actions
+
     func toggleRecording() {
         switch state {
         case .idle, .error:
@@ -90,7 +91,7 @@ class SpeechViewModel {
     private func stopRecording() async {
         do {
             try await audioRecorderService.stopRecording()
-            guard let recordingURL = recordingURL else {
+            guard let recordingURL else {
                 throw SpeechError.noRecordingURL
             }
 
@@ -108,10 +109,10 @@ class SpeechViewModel {
             state = .error(error.localizedDescription)
         }
     }
-
 }
 
 // MARK: - ContentView
+
 struct ContentView: View {
     @Environment(AppSettings.self) var appSettings
 
@@ -168,22 +169,22 @@ struct AudioVisualization: View {
 
     private var fillColor: Color {
         switch state {
-        case .idle: return .gray.opacity(0.2)
-        case .recording: return .red.opacity(0.3)
-        case .transcribing: return .blue.opacity(0.3)
-        case .processing: return .orange.opacity(0.3)
-        case .outputting: return .green.opacity(0.3)
-        case .error: return .red.opacity(0.5)
+        case .idle: .gray.opacity(0.2)
+        case .recording: .red.opacity(0.3)
+        case .transcribing: .blue.opacity(0.3)
+        case .processing: .orange.opacity(0.3)
+        case .outputting: .green.opacity(0.3)
+        case .error: .red.opacity(0.5)
         }
     }
 
     private var displayText: String {
         switch state {
-        case .idle: return "Ready"
-        case .recording: return "🎤 Recording..."
-        case .transcribing: return "🧠 Transcribing..."
-        case .processing, .outputting: return "⚙️ Processing..."
-        case .error: return "❌ Error"
+        case .idle: "Ready"
+        case .recording: "🎤 Recording..."
+        case .transcribing: "🧠 Transcribing..."
+        case .processing, .outputting: "⚙️ Processing..."
+        case .error: "❌ Error"
         }
     }
 }

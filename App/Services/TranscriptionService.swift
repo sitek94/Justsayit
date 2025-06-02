@@ -2,6 +2,7 @@ import Foundation
 import OpenAI
 
 // MARK: - Transcription Errors
+
 enum TranscriptionError: LocalizedError {
     case failedToLoadAudioFile
     case invalidAudioFormat
@@ -12,36 +13,39 @@ enum TranscriptionError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .failedToLoadAudioFile:
-            return "Failed to load audio file"
+            "Failed to load audio file"
         case .invalidAudioFormat:
-            return "Invalid audio format. Supported formats: m4a, mp3, wav, webm"
+            "Invalid audio format. Supported formats: m4a, mp3, wav, webm"
         case .apiKeyMissing:
-            return "API key is missing"
-        case .networkError(let message):
-            return "Network error: \(message)"
-        case .apiError(let message):
-            return "API error: \(message)"
+            "API key is missing"
+        case let .networkError(message):
+            "Network error: \(message)"
+        case let .apiError(message):
+            "API error: \(message)"
         }
     }
 }
 
 // MARK: - Transcription Service Protocol
+
 protocol TranscriptionService: Sendable {
     func transcribe(audioURL: URL) async throws -> String
 }
 
 // MARK: - OpenAI Transcription Service
+
 actor OpenAITranscriptionService: TranscriptionService {
     private let openAI: OpenAI
 
     init(apiKey: String) {
-        self.openAI = OpenAI(apiToken: apiKey)
+        openAI = OpenAI(apiToken: apiKey)
     }
 
     func transcribe(audioURL: URL) async throws -> String {
         guard
             let fileType = AudioTranscriptionQuery.FileType(
-                rawValue: audioURL.pathExtension.lowercased())
+                rawValue: audioURL.pathExtension.lowercased()
+            )
         else {
             throw TranscriptionError.invalidAudioFormat
         }

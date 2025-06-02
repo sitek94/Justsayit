@@ -2,6 +2,7 @@ import AVFoundation
 import Foundation
 
 // MARK: - Audio Recorder Service
+
 actor AudioRecorderService {
     private var audioRecorder: AVAudioRecorder?
     private var isCurrentlyRecording = false
@@ -17,6 +18,7 @@ actor AudioRecorderService {
     ]
 
     // MARK: - Permission Management
+
     func checkPermission() async -> Bool {
         await withCheckedContinuation { continuation in
             let status = AVCaptureDevice.authorizationStatus(for: .audio)
@@ -40,6 +42,7 @@ actor AudioRecorderService {
     }
 
     // MARK: - Recording Control
+
     func startRecording(to url: URL) async throws {
         try await requestPermission()
 
@@ -90,8 +93,9 @@ actor AudioRecorderService {
     }
 
     // MARK: - State Queries
+
     func getRecordingStatus() -> Bool {
-        return isCurrentlyRecording
+        isCurrentlyRecording
     }
 
     func getCurrentRecordingTime() -> TimeInterval {
@@ -103,6 +107,7 @@ actor AudioRecorderService {
 }
 
 // MARK: - Audio Recorder Error Types
+
 enum AudioRecorderError: Error, LocalizedError {
     case permissionDenied
     case setupFailed(String)
@@ -113,15 +118,15 @@ enum AudioRecorderError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .permissionDenied:
-            return "Microphone permission required"
-        case .setupFailed(let reason):
-            return "Recorder setup failed: \(reason)"
-        case .recordingFailed(let reason):
-            return "Recording failed: \(reason)"
+            "Microphone permission required"
+        case let .setupFailed(reason):
+            "Recorder setup failed: \(reason)"
+        case let .recordingFailed(reason):
+            "Recording failed: \(reason)"
         case .alreadyRecording:
-            return "Already recording"
+            "Already recording"
         case .notRecording:
-            return "Not currently recording"
+            "Not currently recording"
         }
     }
 }

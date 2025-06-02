@@ -9,6 +9,6 @@ import Foundation
 
 struct AIProcessingService {
     func process(_ input: String) -> String {
-        return input
+        input
     }
 }
