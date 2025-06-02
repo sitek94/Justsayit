@@ -1,11 +1,37 @@
 import AVFoundation
 import Foundation
 
+// MARK: - Audio Recorder Error Types
+
+enum AudioRecorderError: Error, LocalizedError {
+    case setupFailed(String)
+    case recordingFailed(String)
+    case missingRecordingURL
+    case alreadyRecording
+    case notRecording
+
+    var errorDescription: String? {
+        switch self {
+        case let .setupFailed(reason):
+            "Recorder setup failed: \(reason)"
+        case let .recordingFailed(reason):
+            "Recording failed: \(reason)"
+        case .missingRecordingURL:
+            "Missing recording URL"
+        case .alreadyRecording:
+            "Already recording"
+        case .notRecording:
+            "Not currently recording"
+        }
+    }
+}
+
 // MARK: - Audio Recorder Service
 
 actor AudioRecorderService {
     private var audioRecorder: AVAudioRecorder?
     private var isCurrentlyRecording = false
+    private let permissionService = PermissionService()
 
     private let audioSettings: [String: Any] = [
         AVFormatIDKey: Int(kAudioFormatLinearPCM),
@@ -17,34 +43,10 @@ actor AudioRecorderService {
         AVLinearPCMIsFloatKey: false,
     ]
 
-    // MARK: - Permission Management
-
-    func checkPermission() async -> Bool {
-        await withCheckedContinuation { continuation in
-            let status = AVCaptureDevice.authorizationStatus(for: .audio)
-            switch status {
-            case .authorized:
-                continuation.resume(returning: true)
-            case .notDetermined:
-                AVCaptureDevice.requestAccess(for: .audio) { granted in
-                    continuation.resume(returning: granted)
-                }
-            default:
-                continuation.resume(returning: false)
-            }
-        }
-    }
-
-    func requestPermission() async throws {
-        guard await checkPermission() else {
-            throw AudioRecorderError.permissionDenied
-        }
-    }
-
     // MARK: - Recording Control
 
     func startRecording(to url: URL) async throws {
-        try await requestPermission()
+        try await permissionService.requestMicrophonePermission()
 
         guard !isCurrentlyRecording else {
             throw AudioRecorderError.alreadyRecording
@@ -103,30 +105,5 @@ actor AudioRecorderService {
             return 0
         }
         return recorder.currentTime
-    }
-}
-
-// MARK: - Audio Recorder Error Types
-
-enum AudioRecorderError: Error, LocalizedError {
-    case permissionDenied
-    case setupFailed(String)
-    case recordingFailed(String)
-    case alreadyRecording
-    case notRecording
-
-    var errorDescription: String? {
-        switch self {
-        case .permissionDenied:
-            "Microphone permission required"
-        case let .setupFailed(reason):
-            "Recorder setup failed: \(reason)"
-        case let .recordingFailed(reason):
-            "Recording failed: \(reason)"
-        case .alreadyRecording:
-            "Already recording"
-        case .notRecording:
-            "Not currently recording"
-        }
     }
 }

@@ -1,9 +1,3 @@
-//
-//  EnvironmentAndObservableForAppWideSettings.swift
-//  LearningSwift
-//
-//  Created by Maciej Sitkowski on 30/05/2025.
-//
 import Observation
 import SwiftUI
 

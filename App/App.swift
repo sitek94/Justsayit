@@ -1,9 +1,3 @@
-//
-//  JustsayitApp.swift
-//  Justsayit
-//
-//  Created by Maciej Sitkowski on 29/05/2025.
-//
 import Sparkle
 import SwiftUI
 

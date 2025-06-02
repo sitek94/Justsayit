@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A2AF92042DED908C007B35D6 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = A2AF92032DED908C007B35D6 /* OpenAI */; };
+		A2AF92072DED90AD007B35D6 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = A2AF92062DED90AD007B35D6 /* Sparkle */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A2AF91C52DED8762007B35D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -39,6 +44,13 @@
 			);
 			target = A2AF91B02DED875D007B35D6 /* App */;
 		};
+		A2AF92012DED903D007B35D6 /* Exceptions for "Resources" folder in "App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A2AF91B02DED875D007B35D6 /* App */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -59,6 +71,9 @@
 		};
 		A2AF91E52DED882B007B35D6 /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A2AF92012DED903D007B35D6 /* Exceptions for "Resources" folder in "App" target */,
+			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
@@ -77,6 +92,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2AF92042DED908C007B35D6 /* OpenAI in Frameworks */,
+				A2AF92072DED90AD007B35D6 /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +158,8 @@
 			);
 			name = App;
 			packageProductDependencies = (
+				A2AF92032DED908C007B35D6 /* OpenAI */,
+				A2AF92062DED90AD007B35D6 /* Sparkle */,
 			);
 			productName = Justsayit;
 			productReference = A2AF91B12DED875D007B35D6 /* App.app */;
@@ -224,6 +243,10 @@
 			);
 			mainGroup = A2AF91A82DED875D007B35D6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A2AF92022DED908C007B35D6 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				A2AF92052DED90AD007B35D6 /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A2AF91B22DED875D007B35D6 /* Products */;
 			projectDirPath = "";
@@ -598,6 +621,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A2AF92022DED908C007B35D6 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.3;
+			};
+		};
+		A2AF92052DED90AD007B35D6 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A2AF92032DED908C007B35D6 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2AF92022DED908C007B35D6 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
+		A2AF92062DED90AD007B35D6 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2AF92052DED90AD007B35D6 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A2AF91A92DED875D007B35D6 /* Project object */;
 }

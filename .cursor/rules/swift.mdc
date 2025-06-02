@@ -1,0 +1,30 @@
+---
+description: Rules to follow when writing Swift code
+globs: "**/*.swift"
+alwaysApply: false
+---
+
+Follow these rules when writing Swift code:
+- Swift 6 syntax only, NO legacy patterns
+- @Observable over ObservableObject - cleaner syntax, better performance
+- Actors for business logic - thread-safe by design, no manual threading
+- @MainActor @Observable for UI state - explicit UI isolation
+- Implicit Sendable - rely on compiler safety, avoid @unchecked Sendable
+- Service separation - single responsibility, easy testing
+- AsyncStream over callbacks - modern async patterns
+- Proper error boundaries - domain-specific errors at each layer
+- Avoid @MainActor annotations through good architecture
+- Use actors for shared mutable state instead of manual synchronization  
+- UI updates happen naturally in @Observable ViewModels
+- No DispatchQueue.main.async - rely on proper isolation
+- Refer to Google Swift Style Guide and Official Swift API Design Guidelines for style.
+- Avoid adding code comments unless necessary.
+
+```swift
+// Preferred pattern:
+actor BusinessLogicService { }           // Thread-safe business logic
+@MainActor @Observable class ViewModel { } // UI state management
+// NOT: @MainActor everywhere or manual DispatchQueue.main.async
+```
+
+Use `context7` MCP tool to get the latest Swift 6 and Swift UI APIs, compiler errors, or current best practices.

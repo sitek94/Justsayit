@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+env:
+  APP_NAME: 'Justsayit'
+  APPLE_ID: ${{ secrets.APPLE_ID }}
+  APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+  APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+  APPLE_CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
+  APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+  BUILD_DIR: ${{ github.workspace }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  SPARKLE_ED_PRIVATE_KEY: ${{ secrets.SPARKLE_ED_PRIVATE_KEY }}
+  VERSION_FILE: 'VERSION.txt'
+  XCODE_BUILD_PATH: 'build/Build/Products/Release'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.2'
+
+      - run: Scripts/print-env.sh
+      - run: Scripts/setup-certificate.sh
+      - run: Scripts/validate-plist.sh
+      - run: Scripts/build-app.sh
+      - run: Scripts/package-and-notarize-release.sh
+      - name: Download Sparkle tools for signing
+        run: |
+          curl -L https://github.com/sparkle-project/Sparkle/releases/download/2.7.0/Sparkle-2.7.0.tar.xz -o sparkle.tar.xz
+          tar -xf sparkle.tar.xz
+      - run: Scripts/update-appcast.sh
+      - run: Scripts/prepare-release.sh
+
+      - id: set_tag_name
+        run: echo "tag_name=v"$(cat $VERSION_FILE)"" >> "$GITHUB_OUTPUT"
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.set_tag_name.outputs.tag_name }}
+          files: ${{ env.XCODE_BUILD_PATH }}/*.zip

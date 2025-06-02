@@ -49,9 +49,9 @@ actor OutputService {
         let cmdKeyUp = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: false)
 
         guard let cmdDown = cmdKeyDown,
-            let vDown = vKeyDown,
-            let vUp = vKeyUp,
-            let cmdUp = cmdKeyUp
+              let vDown = vKeyDown,
+              let vUp = vKeyUp,
+              let cmdUp = cmdKeyUp
         else {
             throw OutputError.pasteFailed("Failed to create key events")
         }
@@ -62,7 +62,7 @@ actor OutputService {
 
         // Post events with small delays
         cmdDown.post(tap: .cghidEventTap)
-        usleep(1000)  // 1ms
+        usleep(1000) // 1ms
         vDown.post(tap: .cghidEventTap)
         usleep(1000)
         vUp.post(tap: .cghidEventTap)

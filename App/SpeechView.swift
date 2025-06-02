@@ -1,19 +1,5 @@
 import SwiftUI
 
-enum SpeechError: Error, LocalizedError {
-    case microphonePermissionRequired
-    case noRecordingURL
-
-    var errorDescription: String? {
-        switch self {
-        case .microphonePermissionRequired:
-            "Microphone permission required"
-        case .noRecordingURL:
-            "No recording URL found"
-        }
-    }
-}
-
 enum SpeechState: Equatable {
     case idle
     case recording
@@ -72,11 +58,6 @@ class SpeechViewModel {
 
     private func startRecording() async {
         do {
-            let hasPermission = await audioRecorderService.checkPermission()
-            guard hasPermission else {
-                throw SpeechError.microphonePermissionRequired
-            }
-
             let startedRecordingURL = await fileService.createRecordingURL()
             try await audioRecorderService.startRecording(to: startedRecordingURL)
 
@@ -91,8 +72,9 @@ class SpeechViewModel {
     private func stopRecording() async {
         do {
             try await audioRecorderService.stopRecording()
+
             guard let recordingURL else {
-                throw SpeechError.noRecordingURL
+                throw AudioRecorderError.missingRecordingURL
             }
 
             state = .transcribing
@@ -160,9 +142,17 @@ struct AudioVisualization: View {
         Rectangle()
             .fill(fillColor)
             .overlay {
-                Text(displayText)
-                    .font(.title2)
-                    .foregroundColor(.secondary)
+                VStack(spacing: 4) {
+                    Text(title)
+                        .font(.title2)
+                        .foregroundColor(.secondary)
+
+                    if !description.isEmpty {
+                        Text(description)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
             }
             .animation(.easeInOut(duration: 0.3), value: state)
     }
@@ -178,13 +168,20 @@ struct AudioVisualization: View {
         }
     }
 
-    private var displayText: String {
+    private var title: String {
         switch state {
         case .idle: "Ready"
         case .recording: "🎤 Recording..."
         case .transcribing: "🧠 Transcribing..."
         case .processing, .outputting: "⚙️ Processing..."
         case .error: "❌ Error"
+        }
+    }
+    
+    private var description: String {
+        switch state {  
+            case let .error(error): error
+            default: ""
         }
     }
 }
