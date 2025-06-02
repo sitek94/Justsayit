@@ -6,50 +6,115 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		A251C1712DE915AA00183533 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = A251C1702DE915AA00183533 /* HotKey */; };
-		A251C2422DEBE07A00183533 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = A251C2412DEBE07A00183533 /* OpenAI */; };
-		A251C27C2DEC7DEC00183533 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = A251C27B2DEC7DEC00183533 /* Sparkle */; };
-/* End PBXBuildFile section */
+/* Begin PBXContainerItemProxy section */
+		A2AF91C52DED8762007B35D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2AF91A92DED875D007B35D6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A2AF91B02DED875D007B35D6;
+			remoteInfo = Justsayit;
+		};
+		A2AF91CF2DED8762007B35D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A2AF91A92DED875D007B35D6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A2AF91B02DED875D007B35D6;
+			remoteInfo = Justsayit;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A251C15D2DE90EAD00183533 /* Justsayit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Justsayit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2AF91B12DED875D007B35D6 /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2AF91C42DED8762007B35D6 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2AF91CE2DED8762007B35D6 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A2AF91EB2DED8986007B35D6 /* Exceptions for "Config" folder in "App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				base.xcconfig,
+				debug.xcconfig,
+				release.xcconfig,
+			);
+			target = A2AF91B02DED875D007B35D6 /* App */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		A24BF8892DED754B00CB0391 /* App */ = {
+		A2AF91B32DED875D007B35D6 /* App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = App;
+			sourceTree = "<group>";
+		};
+		A2AF91C72DED8762007B35D6 /* Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		A2AF91D12DED8762007B35D6 /* UITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		A2AF91E52DED882B007B35D6 /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A2AF91E92DED8974007B35D6 /* Config */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A2AF91EB2DED8986007B35D6 /* Exceptions for "Config" folder in "App" target */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A251C15A2DE90EAD00183533 /* Frameworks */ = {
+		A2AF91AE2DED875D007B35D6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A251C27C2DEC7DEC00183533 /* Sparkle in Frameworks */,
-				A251C2422DEBE07A00183533 /* OpenAI in Frameworks */,
-				A251C1712DE915AA00183533 /* HotKey in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2AF91C12DED8762007B35D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2AF91CB2DED8762007B35D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A251C1542DE90EAD00183533 = {
+		A2AF91A82DED875D007B35D6 = {
 			isa = PBXGroup;
 			children = (
-				A251C15E2DE90EAD00183533 /* Products */,
-				A24BF8892DED754B00CB0391 /* App */,
+				A2AF91E92DED8974007B35D6 /* Config */,
+				A2AF91B32DED875D007B35D6 /* App */,
+				A2AF91C72DED8762007B35D6 /* Tests */,
+				A2AF91D12DED8762007B35D6 /* UITests */,
+				A2AF91B22DED875D007B35D6 /* Products */,
+				A2AF91E52DED882B007B35D6 /* Resources */,
 			);
 			sourceTree = "<group>";
 		};
-		A251C15E2DE90EAD00183533 /* Products */ = {
+		A2AF91B22DED875D007B35D6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A251C15D2DE90EAD00183533 /* Justsayit.app */,
+				A2AF91B12DED875D007B35D6 /* App.app */,
+				A2AF91C42DED8762007B35D6 /* Tests.xctest */,
+				A2AF91CE2DED8762007B35D6 /* UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -57,72 +122,136 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A251C15C2DE90EAD00183533 /* Justsayit */ = {
+		A2AF91B02DED875D007B35D6 /* App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A251C16C2DE90EB000183533 /* Build configuration list for PBXNativeTarget "Justsayit" */;
+			buildConfigurationList = A2AF91D82DED8762007B35D6 /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
-				A251C1592DE90EAD00183533 /* Sources */,
-				A251C15A2DE90EAD00183533 /* Frameworks */,
-				A251C15B2DE90EAD00183533 /* Resources */,
+				A2AF91AD2DED875D007B35D6 /* Sources */,
+				A2AF91AE2DED875D007B35D6 /* Frameworks */,
+				A2AF91AF2DED875D007B35D6 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				A24BF8892DED754B00CB0391 /* App */,
+				A2AF91B32DED875D007B35D6 /* App */,
+				A2AF91E52DED882B007B35D6 /* Resources */,
+				A2AF91E92DED8974007B35D6 /* Config */,
 			);
-			name = Justsayit;
+			name = App;
 			packageProductDependencies = (
-				A251C1702DE915AA00183533 /* HotKey */,
-				A251C2412DEBE07A00183533 /* OpenAI */,
-				A251C27B2DEC7DEC00183533 /* Sparkle */,
 			);
 			productName = Justsayit;
-			productReference = A251C15D2DE90EAD00183533 /* Justsayit.app */;
+			productReference = A2AF91B12DED875D007B35D6 /* App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A2AF91C32DED8762007B35D6 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A2AF91DB2DED8762007B35D6 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				A2AF91C02DED8762007B35D6 /* Sources */,
+				A2AF91C12DED8762007B35D6 /* Frameworks */,
+				A2AF91C22DED8762007B35D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A2AF91C62DED8762007B35D6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A2AF91C72DED8762007B35D6 /* Tests */,
+			);
+			name = Tests;
+			packageProductDependencies = (
+			);
+			productName = JustsayitTests;
+			productReference = A2AF91C42DED8762007B35D6 /* Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A2AF91CD2DED8762007B35D6 /* UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A2AF91DE2DED8762007B35D6 /* Build configuration list for PBXNativeTarget "UITests" */;
+			buildPhases = (
+				A2AF91CA2DED8762007B35D6 /* Sources */,
+				A2AF91CB2DED8762007B35D6 /* Frameworks */,
+				A2AF91CC2DED8762007B35D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A2AF91D02DED8762007B35D6 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A2AF91D12DED8762007B35D6 /* UITests */,
+			);
+			name = UITests;
+			packageProductDependencies = (
+			);
+			productName = JustsayitUITests;
+			productReference = A2AF91CE2DED8762007B35D6 /* UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		A251C1552DE90EAD00183533 /* Project object */ = {
+		A2AF91A92DED875D007B35D6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					A251C15C2DE90EAD00183533 = {
+					A2AF91B02DED875D007B35D6 = {
 						CreatedOnToolsVersion = 16.2;
+					};
+					A2AF91C32DED8762007B35D6 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = A2AF91B02DED875D007B35D6;
+					};
+					A2AF91CD2DED8762007B35D6 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = A2AF91B02DED875D007B35D6;
 					};
 				};
 			};
-			buildConfigurationList = A251C1582DE90EAD00183533 /* Build configuration list for PBXProject "Justsayit" */;
+			buildConfigurationList = A2AF91AC2DED875D007B35D6 /* Build configuration list for PBXProject "Justsayit" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = A251C1542DE90EAD00183533;
+			mainGroup = A2AF91A82DED875D007B35D6;
 			minimizedProjectReferenceProxies = 1;
-			packageReferences = (
-				A251C16F2DE915AA00183533 /* XCRemoteSwiftPackageReference "HotKey" */,
-				A251C2402DEBE07A00183533 /* XCRemoteSwiftPackageReference "OpenAI" */,
-				A251C27A2DEC7DEC00183533 /* XCRemoteSwiftPackageReference "Sparkle" */,
-			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = A251C15E2DE90EAD00183533 /* Products */;
+			productRefGroup = A2AF91B22DED875D007B35D6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A251C15C2DE90EAD00183533 /* Justsayit */,
+				A2AF91B02DED875D007B35D6 /* App */,
+				A2AF91C32DED8762007B35D6 /* Tests */,
+				A2AF91CD2DED8762007B35D6 /* UITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A251C15B2DE90EAD00183533 /* Resources */ = {
+		A2AF91AF2DED875D007B35D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2AF91C22DED8762007B35D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2AF91CC2DED8762007B35D6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -132,7 +261,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A251C1592DE90EAD00183533 /* Sources */ = {
+		A2AF91AD2DED875D007B35D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2AF91C02DED8762007B35D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A2AF91CA2DED8762007B35D6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -141,9 +284,24 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A2AF91C62DED8762007B35D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A2AF91B02DED875D007B35D6 /* App */;
+			targetProxy = A2AF91C52DED8762007B35D6 /* PBXContainerItemProxy */;
+		};
+		A2AF91D02DED8762007B35D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A2AF91B02DED875D007B35D6 /* App */;
+			targetProxy = A2AF91CF2DED8762007B35D6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
-		A251C16A2DE90EB000183533 /* Debug */ = {
+		A2AF91D62DED8762007B35D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A2AF91E92DED8974007B35D6 /* Config */;
+			baseConfigurationReferenceRelativePath = debug.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -205,8 +363,10 @@
 			};
 			name = Debug;
 		};
-		A251C16B2DE90EB000183533 /* Release */ = {
+		A2AF91D72DED8762007B35D6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = A2AF91E92DED8974007B35D6 /* Config */;
+			baseConfigurationReferenceRelativePath = release.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -260,139 +420,184 @@
 			};
 			name = Release;
 		};
-		A251C16D2DE90EB000183533 /* Debug */ = {
+		A2AF91D92DED8762007B35D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = Justsayit/Resources/Justsayit.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = Resources/Justsayit.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Justsayit/Resources/Preview Content\"";
-				DEVELOPMENT_TEAM = 8N24XF84J5;
+				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 8N24XF84J5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Justsayit/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This app needs accessibility access to paste transcribed text";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires microphone access to record audio for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.macieksitkowski.Justsayit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
-		A251C16E2DE90EB000183533 /* Release */ = {
+		A2AF91DA2DED8762007B35D6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = Justsayit/Resources/Justsayit.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = Resources/Justsayit.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Justsayit/Resources/Preview Content\"";
-				DEVELOPMENT_TEAM = 8N24XF84J5;
+				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 8N24XF84J5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Justsayit/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "This app needs accessibility access to paste transcribed text";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires microphone access to record audio for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.macieksitkowski.Justsayit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		A2AF91DC2DED8762007B35D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 8N24XF84J5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.macieksitkowski.JustsayitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Justsayit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Justsayit";
+			};
+			name = Debug;
+		};
+		A2AF91DD2DED8762007B35D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 8N24XF84J5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.macieksitkowski.JustsayitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Justsayit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Justsayit";
+			};
+			name = Release;
+		};
+		A2AF91DF2DED8762007B35D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 8N24XF84J5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.macieksitkowski.JustsayitUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Justsayit;
+			};
+			name = Debug;
+		};
+		A2AF91E02DED8762007B35D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 8N24XF84J5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.macieksitkowski.JustsayitUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Justsayit;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A251C1582DE90EAD00183533 /* Build configuration list for PBXProject "Justsayit" */ = {
+		A2AF91AC2DED875D007B35D6 /* Build configuration list for PBXProject "Justsayit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A251C16A2DE90EB000183533 /* Debug */,
-				A251C16B2DE90EB000183533 /* Release */,
+				A2AF91D62DED8762007B35D6 /* Debug */,
+				A2AF91D72DED8762007B35D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A251C16C2DE90EB000183533 /* Build configuration list for PBXNativeTarget "Justsayit" */ = {
+		A2AF91D82DED8762007B35D6 /* Build configuration list for PBXNativeTarget "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A251C16D2DE90EB000183533 /* Debug */,
-				A251C16E2DE90EB000183533 /* Release */,
+				A2AF91D92DED8762007B35D6 /* Debug */,
+				A2AF91DA2DED8762007B35D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A2AF91DB2DED8762007B35D6 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2AF91DC2DED8762007B35D6 /* Debug */,
+				A2AF91DD2DED8762007B35D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A2AF91DE2DED8762007B35D6 /* Build configuration list for PBXNativeTarget "UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A2AF91DF2DED8762007B35D6 /* Debug */,
+				A2AF91E02DED8762007B35D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		A251C16F2DE915AA00183533 /* XCRemoteSwiftPackageReference "HotKey" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/soffes/HotKey";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		A251C2402DEBE07A00183533 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.3;
-			};
-		};
-		A251C27A2DEC7DEC00183533 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sparkle-project/Sparkle";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.7.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		A251C1702DE915AA00183533 /* HotKey */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A251C16F2DE915AA00183533 /* XCRemoteSwiftPackageReference "HotKey" */;
-			productName = HotKey;
-		};
-		A251C2412DEBE07A00183533 /* OpenAI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A251C2402DEBE07A00183533 /* XCRemoteSwiftPackageReference "OpenAI" */;
-			productName = OpenAI;
-		};
-		A251C27B2DEC7DEC00183533 /* Sparkle */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A251C27A2DEC7DEC00183533 /* XCRemoteSwiftPackageReference "Sparkle" */;
-			productName = Sparkle;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = A251C1552DE90EAD00183533 /* Project object */;
+	rootObject = A2AF91A92DED875D007B35D6 /* Project object */;
 }

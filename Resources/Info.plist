@@ -2,9 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAccessibilityUsageDescription</key>
-	<string>Accessibility permissions are used for window management.</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>SUEnableInstallerLauncherService</key>
+	<true/>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
 	<key>SUFeedURL</key>
-	<string>file:///Users/sitkom/Justsayit-Updates/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/sitek94/Justsayit/main/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>g1bjy59xQP2dv8gERpot9tU9fgjI6no6QH+sk3NRb1I=</string>
 </dict>
 </plist>
