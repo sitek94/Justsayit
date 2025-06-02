@@ -29,7 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A2AF91B12DED875D007B35D6 /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2AF91B12DED875D007B35D6 /* Justsayit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Justsayit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2AF91C42DED8762007B35D6 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2AF91CE2DED8762007B35D6 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -129,7 +129,7 @@
 		A2AF91B22DED875D007B35D6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A2AF91B12DED875D007B35D6 /* App.app */,
+				A2AF91B12DED875D007B35D6 /* Justsayit.app */,
 				A2AF91C42DED8762007B35D6 /* Tests.xctest */,
 				A2AF91CE2DED8762007B35D6 /* UITests.xctest */,
 			);
@@ -162,7 +162,7 @@
 				A2AF92062DED90AD007B35D6 /* Sparkle */,
 			);
 			productName = Justsayit;
-			productReference = A2AF91B12DED875D007B35D6 /* App.app */;
+			productReference = A2AF91B12DED875D007B35D6 /* Justsayit.app */;
 			productType = "com.apple.product-type.application";
 		};
 		A2AF91C32DED8762007B35D6 /* Tests */ = {
@@ -466,7 +466,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.macieksitkowski.Justsayit;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Justsayit;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
@@ -496,7 +496,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.macieksitkowski.Justsayit;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Justsayit;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
