@@ -4,7 +4,5 @@
 <dict>
 	<key>NSAccessibilityDescription</key>
 	<string>This app needs Accessibility permission to simulate keyboard input</string>
-	<key>NSAppleEventsUsageDescription</key>
-	<string>This app needs to control System Events to paste text.</string>
 </dict>
 </plist>
