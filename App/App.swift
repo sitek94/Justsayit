@@ -1,15 +1,6 @@
 import Sparkle
 import SwiftUI
 
-@Observable
-class AppSettings {
-    var appName: String = "Justsayit"
-    var openaiApiKey: String = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] ?? ""
-    var groqApiKey: String = ProcessInfo.processInfo.environment["GROQ_API_KEY"] ?? ""
-    var geminiApiKey: String = ProcessInfo.processInfo.environment["GEMINI_API_KEY"] ?? ""
-    var anthropicApiKey: String = ProcessInfo.processInfo.environment["ANTHROPIC_API_KEY"] ?? ""
-}
-
 @main
 struct JustsayitApp: App {
     @State private var appSettings = AppSettings()
@@ -43,19 +34,10 @@ struct JustsayitApp: App {
         .windowBackgroundDragBehavior(.enabled)
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
-//        .commands {
-//            CommandGroup(after: .appInfo) {
-//                Button("Check for updates…") {
-//                    updaterController.checkForUpdates()
-//                }
-//                .disabled(!updaterController.updater.canCheckForUpdates)
-//            }
-//        }
 
         Settings {
             SettingsView()
                 .environment(appSettings)
-                .frame(maxWidth: 400, maxHeight: 200)
         }
     }
 }

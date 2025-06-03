@@ -2,21 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
-
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app needs access to your microphone to record audio.</string>
-
-	<key>SUEnableInstallerLauncherService</key>
-	<true/>
-	<key>SUEnableAutomaticChecks</key>
-	<true/>
-	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/sitek94/Justsayit/main/Resources/appcast.xml</string>
-	<key>SUPublicEDKey</key>
-	<string>g1bjy59xQP2dv8gERpot9tU9fgjI6no6QH+sk3NRb1I=</string>
+	<key>NSAccessibilityDescription</key>
+	<string>This app needs Accessibility permission to simulate keyboard input</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>This app needs to control System Events to paste text.</string>
 </dict>
 </plist>

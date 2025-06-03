@@ -1,7 +1,7 @@
 # rules: https://github.com/nicklockwood/SwiftFormat/blob/main/Rules.md
 
 --swiftversion 6
---maxwidth 110
+--maxwidth 120
 --nowrapoperators .,==,!=,<,>,>=,<=
 --wrapternary before-operators
 --disable andOperator

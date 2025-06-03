@@ -11,15 +11,17 @@ enum SpeechState: Equatable {
 
 @MainActor @Observable
 class SpeechViewModel {
-    private let transcriptionService: TranscriptionService
+    private let appSettings: AppSettings
 
+    private let transcriptionService: TranscriptionService
     private let audioRecorderService = AudioRecorderService()
     private let fileService = AudioFileService()
     private let outputService = OutputService()
     private let aiProcessingService = AIProcessingService()
 
-    init(apiKey: String) {
-        transcriptionService = OpenAITranscriptionService(apiKey: apiKey)
+    init(_ settings: AppSettings) {
+        appSettings = settings
+        transcriptionService = OpenAITranscriptionService(apiKey: settings.openaiApiKey)
     }
 
     var state: SpeechState = .idle
@@ -58,6 +60,17 @@ class SpeechViewModel {
 
     private func startRecording() async {
         do {
+            // TODO: Handle in permissions service maybe
+            let isTrusted = AXIsProcessTrusted()
+            if !isTrusted {
+                NSWorkspace.shared.open(
+                    URL(
+                        string:
+                            "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+                    )!
+                )
+            }
+
             let startedRecordingURL = await fileService.createRecordingURL()
             try await audioRecorderService.startRecording(to: startedRecordingURL)
 
@@ -84,7 +97,12 @@ class SpeechViewModel {
             processedText = aiProcessingService.process(transcription)
 
             state = .outputting
-            try await outputService.copyToClipboard(transcription)
+
+            if appSettings.pasteResultText {
+                try outputService.pasteToActiveApp(processedText)
+            } else {
+                outputService.copyToClipboard(processedText)
+            }
 
             state = .idle
         } catch {
@@ -99,7 +117,7 @@ struct ContentView: View {
     @Environment(AppSettings.self) var appSettings
 
     @State private var isCompact = false
-    @State private var viewModel = SpeechViewModel(apiKey: "")
+    @State private var viewModel = SpeechViewModel(AppSettings())
 
     var body: some View {
         VStack(spacing: 0) {
@@ -127,10 +145,10 @@ struct ContentView: View {
         }
         .ignoresSafeArea(.all, edges: .top)
         .task {
-            viewModel = SpeechViewModel(apiKey: appSettings.openaiApiKey)
+            viewModel = SpeechViewModel(appSettings)
         }
         .onChange(of: appSettings.openaiApiKey) {
-            viewModel = SpeechViewModel(apiKey: appSettings.openaiApiKey)
+            viewModel = SpeechViewModel(appSettings)
         }
     }
 }
@@ -177,11 +195,11 @@ struct AudioVisualization: View {
         case .error: "❌ Error"
         }
     }
-    
+
     private var description: String {
-        switch state {  
-            case let .error(error): error
-            default: ""
+        switch state {
+        case let .error(error): error
+        default: ""
         }
     }
 }

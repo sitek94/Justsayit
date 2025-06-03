@@ -23,56 +23,54 @@ enum OutputError: Error, LocalizedError {
 }
 
 actor OutputService {
-    func copyToClipboard(_ text: String) async throws {
-        await MainActor.run {
-            let pasteboard = NSPasteboard.general
-            pasteboard.clearContents()
-            pasteboard.setString(text, forType: .string)
-        }
+    @MainActor
+    func copyToClipboard(_ text: String) {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(text, forType: .string)
     }
 
     @MainActor
-    func pasteToActiveApp(_ text: String) async throws {
-        try await copyToClipboard(text)
+    func pasteToActiveApp(_ text: String) throws {
+        copyToClipboard(text)
 
         guard hasAccessibilityPermissions() else {
             throw OutputError.permissionDenied
         }
 
-        try await simulateCommandV()
+        simulatePasteInActiveApp()
     }
 
-    private func simulateCommandV() throws {
-        let cmdKeyDown = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)
-        let vKeyDown = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: true)
-        let vKeyUp = CGEvent(keyboardEventSource: nil, virtualKey: 0x09, keyDown: false)
-        let cmdKeyUp = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: false)
-
-        guard let cmdDown = cmdKeyDown,
-              let vDown = vKeyDown,
-              let vUp = vKeyUp,
-              let cmdUp = cmdKeyUp
-        else {
-            throw OutputError.pasteFailed("Failed to create key events")
-        }
-
-        // Set command modifier for V key events
-        vDown.flags = .maskCommand
-        vUp.flags = .maskCommand
-
-        // Post events with small delays
-        cmdDown.post(tap: .cghidEventTap)
-        usleep(1000) // 1ms
-        vDown.post(tap: .cghidEventTap)
-        usleep(1000)
-        vUp.post(tap: .cghidEventTap)
-        usleep(1000)
-        cmdUp.post(tap: .cghidEventTap)
+    @MainActor
+    private func simulatePasteInActiveApp() {
+        // 1. Get the previously active app (using NSWorkspace)
+        // 2. Activate your app, set clipboard
+        // 3. Reactivate previous app
+        // 4. Simulate Cmd+V:
+        let src = CGEventSource(stateID: .combinedSessionState)
+        let cmdDown = CGEvent(
+            keyboardEventSource: src, virtualKey: 0x37, keyDown: true
+        ) // Cmd
+        let vDown = CGEvent(
+            keyboardEventSource: src, virtualKey: 0x09, keyDown: true
+        ) // V
+        let vUp = CGEvent(
+            keyboardEventSource: src, virtualKey: 0x09, keyDown: false
+        )
+        let cmdUp = CGEvent(
+            keyboardEventSource: src, virtualKey: 0x37, keyDown: false
+        )
+        cmdDown?.flags = .maskCommand
+        vDown?.flags = .maskCommand
+        vDown?.post(tap: .cgAnnotatedSessionEventTap)
+        vUp?.post(tap: .cgAnnotatedSessionEventTap)
+        cmdUp?.post(tap: .cgAnnotatedSessionEventTap)
     }
 
     @MainActor
     private func hasAccessibilityPermissions() -> Bool {
-        let checkOptPrompt = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
+        let checkOptPrompt =
+            kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
         let options = [checkOptPrompt: false]
         return AXIsProcessTrustedWithOptions(options as CFDictionary)
     }
