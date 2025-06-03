@@ -23,6 +23,9 @@ REQUIRED_KEYS=(
   # Microphone access
   "NSMicrophoneUsageDescription"
 
+  # Accessibility permission - simulate cmd+v
+  "NSAccessibilityDescription"
+
   # Auto-update - required by Sparkle
   "SUEnableInstallerLauncherService"
   "SUEnableAutomaticChecks"
