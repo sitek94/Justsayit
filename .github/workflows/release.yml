@@ -3,6 +3,9 @@ name: Release
 on:
   push:
     branches: [main]
+    paths:
+      - VERSION.txt
+  workflow_dispatch:
 
 permissions:
   contents: write
