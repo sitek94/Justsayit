@@ -34,6 +34,7 @@ struct JustsayitApp: App {
         .windowBackgroundDragBehavior(.enabled)
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
+        .windowLevel(.floating)
 
         Settings {
             SettingsView()
