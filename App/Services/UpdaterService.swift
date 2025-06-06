@@ -12,7 +12,11 @@ final class UpdaterService {
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+        updaterController = SPUStandardUpdaterController(
+            startingUpdater: true,
+            updaterDelegate: nil,
+            userDriverDelegate: nil
+        )
         updater = updaterController.updater
 
         updater.publisher(for: \.canCheckForUpdates)
@@ -25,4 +29,4 @@ final class UpdaterService {
     func checkForUpdates() {
         updater.checkForUpdates()
     }
-} 
+}

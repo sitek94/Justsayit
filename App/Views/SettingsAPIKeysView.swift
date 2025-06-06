@@ -1,30 +1,57 @@
 import SwiftUI
 
-struct SettingsAPIKeysView: View {
-    @Environment(AppSettings.self) private var appSettings
+@MainActor
+@Observable
+class SettingsAPIKeysViewModel {
+    let settingsService: SettingsService
 
-    var body: some View {
-        @Bindable var settings = appSettings
-        Form {
-            Section {
-                SecureField("Open AI", text: $settings.openaiApiKey)
-                SecureField("Groq", text: $settings.groqApiKey)
-                SecureField("Gemini", text: $settings.geminiApiKey)
-                SecureField("Anthropic", text: $settings.anthropicApiKey)
-            }
+    init(settingsService: SettingsService) {
+        self.settingsService = settingsService
+    }
+
+    var apiKeys: [APIKeyAccount: String] = [:]
+
+    func loadKeys() {
+        for account in APIKeyAccount.allCases {
+            apiKeys[account] = settingsService.getAPIKey(for: account) ?? ""
         }
-        .formStyle(.grouped)
+    }
+
+    func apiKeyBinding(for account: APIKeyAccount) -> Binding<String> {
+        Binding(
+            get: { self.apiKeys[account, default: ""] },
+            set: { newValue in
+                self.apiKeys[account] = newValue
+                self.settingsService.saveAPIKey(newValue, for: account)
+            }
+        )
     }
 }
 
-// TODO: Maybe use in the future for now just textfield yolo
-func maskedKey(_ key: String) -> String {
-    let prefix = key.prefix(4)
-    let mask = String(repeating: "*", count: max(0, key.count - 4))
-    return "\(prefix)\(mask)"
+struct SettingsAPIKeysView: View {
+    let settingsService: SettingsService
+    @State private var viewModel: SettingsAPIKeysViewModel
+
+    init(settingsService: SettingsService) {
+        self.settingsService = settingsService
+        viewModel = SettingsAPIKeysViewModel(settingsService: settingsService)
+    }
+
+    var body: some View {
+        Form {
+            Section {
+                ForEach(APIKeyAccount.allCases) { account in
+                    SecureField(account.userFacingName, text: viewModel.apiKeyBinding(for: account))
+                }
+            }
+        }
+        .formStyle(.grouped)
+        .onAppear(perform: viewModel.loadKeys)
+    }
 }
 
 #Preview {
-    @State @Previewable var previewSettings = AppSettings()
-    SettingsAPIKeysView().environment(previewSettings)
+    @State @Previewable var settingsService = SettingsService()
+
+    SettingsAPIKeysView(settingsService: settingsService)
 }

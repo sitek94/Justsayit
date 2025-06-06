@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.5
+
+### Improvements
+
+- Migrated API key storage from environment variables to the system Keychain for enhanced security.
+  - Implemented a `KeychainManager` to handle all secure storage operations.
+- Centralized settings management by introducing a `SettingsService`.
+- Replaced string-based API key identifiers with a type-safe `APIKeyAccount` enum to improve code safety and maintainability.
+- The API Keys settings view is now dynamically generated, simplifying the addition of new services in the future.
+
 ## 0.0.4
 
 ### Added

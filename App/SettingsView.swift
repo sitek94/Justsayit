@@ -56,6 +56,8 @@ enum SettingsSection: String, CaseIterable, Identifiable, Codable {
 }
 
 struct SettingsView: View {
+    @Environment(SettingsService.self) private var settingsService
+
     @State private var selection: SettingsSection? = .general
 
     var body: some View {
@@ -74,7 +76,7 @@ struct SettingsView: View {
                 case .general:
                     SettingsGeneralView()
                 case .apiKeys:
-                    SettingsAPIKeysView()
+                    SettingsAPIKeysView(settingsService: settingsService)
                 case .keyboardShortcuts:
                     SettingsKeyboardShortcutsView()
                 case .none:
@@ -89,6 +91,11 @@ struct SettingsView: View {
 }
 
 #Preview {
-    @State @Previewable var previewSettings = AppSettings()
-    SettingsView().environment(previewSettings)
+    @State @Previewable var appSettings = AppSettings()
+    @State @Previewable var settingsService = SettingsService()
+    @State @Previewable var updaterService = UpdaterService()
+
+    SettingsView().environment(appSettings)
+        .environment(settingsService)
+        .environment(updaterService)
 }

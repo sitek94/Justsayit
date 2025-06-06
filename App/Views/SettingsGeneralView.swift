@@ -64,5 +64,7 @@ struct SettingsGeneralView: View {
 
 #Preview {
     @State @Previewable var previewSettings = AppSettings()
+    @State @Previewable var updaterService = UpdaterService()
     SettingsGeneralView().environment(previewSettings)
+        .environment(updaterService)
 }

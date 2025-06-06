@@ -8,6 +8,7 @@ struct JustsayitApp: App {
     @Environment(\.openWindow) private var openWindow
 
     @State private var appSettings = AppSettings()
+    @State private var settingsService = SettingsService()
     @State private var updaterService = UpdaterService()
 
     var body: some Scene {
@@ -34,6 +35,7 @@ struct JustsayitApp: App {
         Window("main", id: "main") {
             ContentView()
                 .environment(appSettings)
+                .environment(settingsService)
                 .environment(updaterService)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
@@ -56,6 +58,7 @@ struct JustsayitApp: App {
         Settings {
             SettingsView()
                 .environment(appSettings)
+                .environment(settingsService)
                 .environment(updaterService)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
