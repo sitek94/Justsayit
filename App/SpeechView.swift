@@ -47,6 +47,18 @@ class SpeechViewModel {
 
     // MARK: - Actions
 
+    func bringToFront() {
+        if let window = NSApp.windows.first(where: { $0.title == "main" }) {
+            window.makeKeyAndOrderFront(nil)
+        }
+    }
+
+    func bringToBack() {
+        if let window = NSApp.windows.first(where: { $0.title == "main" }) {
+        window.orderOut(nil)
+        }
+    }
+
     func toggleRecording() {
         switch state {
         case .idle, .error:
@@ -58,7 +70,7 @@ class SpeechViewModel {
         }
     }
 
-    private func startRecording() async {
+    func startRecording() async {
         do {
             // TODO: Handle in permissions service maybe
             let isTrusted = AXIsProcessTrusted()
@@ -82,7 +94,7 @@ class SpeechViewModel {
         }
     }
 
-    private func stopRecording() async {
+    func stopRecording() async {
         do {
             try await audioRecorderService.stopRecording()
 
@@ -149,6 +161,18 @@ struct ContentView: View {
         }
         .onChange(of: appSettings.openaiApiKey) {
             viewModel = SpeechViewModel(appSettings)
+        }
+        .onGlobalKeyboardShortcut(.toggleRecording, type: .keyDown) {
+            Task {
+               let isRecording = viewModel.state == .recording
+                if isRecording {
+                   await viewModel.stopRecording()
+                    viewModel.bringToBack()
+                } else {
+                    viewModel.bringToFront()
+                    await viewModel.startRecording()
+                }
+            }
         }
     }
 }
