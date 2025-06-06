@@ -5,6 +5,19 @@
     <language>en</language>
 
     <item>
+      <title>Version 0.0.5</title>
+      <pubDate>Fri, 06 Jun 2025 19:39:11 +0000</pubDate>
+      <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+      <enclosure
+        url="https://github.com/sitek94/Justsayit/releases/download/v0.0.5/Justsayit-0.0.5.zip"
+        sparkle:version="11"
+        sparkle:shortVersionString="0.0.5"
+        sparkle:edSignature="RglS16PzFITuyd6ZuwAArEsgiN6iD2f2rn2MxH0jWHwx1yaaWWdN4o0gW+YnUUBwOs6gaMrs2aI7Z0apW/1wDQ==" length="2471972"
+        type="application/octet-stream"/>
+    </item>
+
+
+    <item>
       <title>Version 0.0.4</title>
       <pubDate>Fri, 06 Jun 2025 18:12:13 +0000</pubDate>
       <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
