@@ -1,6 +1,15 @@
 {
-  "originHash" : "3ecc7ee9b84d0a1e67ccaf74b902024f56484d8a390224beb97125f5dda89dbc",
+  "originHash" : "5d39f3944184f0e1e55cc60edb85feff6c0ec223681e328789e0116e612a3c84",
   "pins" : [
+    {
+      "identity" : "keyboardshortcuts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
+      "state" : {
+        "revision" : "045cf174010beb335fa1d2567d18c057b8787165",
+        "version" : "2.3.0"
+      }
+    },
     {
       "identity" : "openai",
       "kind" : "remoteSourceControl",

@@ -47,130 +47,48 @@ struct KeyboardShortcutDisplay: View {
     }
 }
 
+enum SettingsSection: String, CaseIterable, Identifiable, Codable {
+    case general = "General"
+    case apiKeys = "API Keys"
+    case keyboardShortcuts = "Shortcuts"
+
+    var id: String { rawValue }
+}
+
 struct SettingsView: View {
-    @Environment(AppSettings.self) private var appSettings
+    @State private var selection: SettingsSection? = .general
 
     var body: some View {
-        @Bindable var settings = appSettings
-
-        Form {
-            Section("General") {
-                HStack {
-                    Toggle(isOn: $settings.pasteResultText) {
-                        Text("Paste result text")
-                    }
-                    .controlSize(.large)
-                    Spacer()
-                    Image(systemName: "questionmark.circle")
-                        .foregroundColor(.white)
+        NavigationSplitView {
+            List(SettingsSection.allCases, selection: $selection) { section in
+                NavigationLink(value: section) {
+                    Text(section.rawValue)
+                }
+            }.listStyle(.sidebar)
+                .toolbar(removing: .sidebarToggle)
+                .listStyle(SidebarListStyle())
+                .navigationSplitViewColumnWidth(200)
+        } detail: {
+            Group {
+                switch selection {
+                case .general:
+                    SettingsGeneralView()
+                case .apiKeys:
+                    SettingsAPIKeysView()
+                case .keyboardShortcuts:
+                    SettingsKeyboardShortcutsView()
+                case .none:
+                    Text("Select a section")
                 }
             }
-
-            Section("Keyboard Shortcuts") {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Toggle Recording")
-                        Text("Starts and stops recordings")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                    }
-                    Spacer()
-                    KeyboardShortcutDisplay("arrow.counterclockwise", systemImage: true)
-                    KeyboardShortcutDisplay("B")
-                }
-
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Cancel Recording")
-                        Text("Discards the active recording")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                    }
-                    Spacer()
-                    KeyboardShortcutDisplay("arrow.counterclockwise", systemImage: true)
-                    KeyboardShortcutDisplay("Esc")
-                }
-
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Change mode")
-                        Text("Activates the mode switcher")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                    }
-                    Spacer()
-                    KeyboardShortcutDisplay("arrow.counterclockwise", systemImage: true)
-                    KeyboardShortcutDisplay("Z")
-                }
-            }
-
-            Section {
-                Toggle(isOn: $settings.pushToTalkEnabled) {
-                    VStack(alignment: .leading) {
-                        Text("Push to Talk")
-                        Text("Hold to record, release when done")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                    }
-                }
-            }
-
-            Section("Application") {
-                HStack {
-                    Text("Update application")
-                    Spacer()
-                    Button("Check for Updates...") {
-                        // Action for checking updates
-                    }
-                }
-                HStack {
-                    Toggle(isOn: $settings.automaticallyCheckForUpdates) {
-                        Text("Automatically check for updates")
-                    }
-                    Spacer()
-                    Image(systemName: "questionmark.circle")
-                        .foregroundColor(.gray)
-                }
-                HStack {
-                    Toggle(isOn: $settings.launchOnLogin) {
-                        Text("Launch on login")
-                    }
-                    Spacer()
-                    Image(systemName: "questionmark.circle")
-                        .foregroundColor(.gray)
-                }
-                HStack {
-                    Toggle(isOn: $settings.errorLoggingEnabled) {
-                        Text("Error logging")
-                    }
-                    Spacer()
-                    Image(systemName: "questionmark.circle")
-                        .foregroundColor(.gray)
-                }
-            }
-
-            Section("API Keys") {
-                SecureField("OpenAI API Key", text: $settings.openaiApiKey)
-                SecureField("Groq API Key", text: $settings.groqApiKey)
-                SecureField("Gemini API Key", text: $settings.geminiApiKey)
-                SecureField(
-                    "Anthropic API Key", text: $settings.anthropicApiKey
-                )
-            }
+            .background(.black)
         }
-        .formStyle(.grouped)
-        .padding()
-        .frame(
-            minWidth: 500, idealWidth: 600, maxWidth: 700,
-            minHeight: 500, idealHeight: 740, maxHeight: 800
-        )
+        .frame(minWidth: 600, idealWidth: 600, maxWidth: 700, minHeight: 400, idealHeight: 450, maxHeight: 500)
         .fixedSize()
     }
 }
 
 #Preview {
     @State @Previewable var previewSettings = AppSettings()
-
-    SettingsView()
-        .environment(previewSettings)
+    SettingsView().environment(previewSettings)
 }

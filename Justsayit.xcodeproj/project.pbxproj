@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A2AE4ED02DEF6B4700BAE728 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = A2AE4ECF2DEF6B4700BAE728 /* KeyboardShortcuts */; };
 		A2AF92042DED908C007B35D6 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = A2AF92032DED908C007B35D6 /* OpenAI */; };
 		A2AF92072DED90AD007B35D6 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = A2AF92062DED90AD007B35D6 /* Sparkle */; };
 /* End PBXBuildFile section */
@@ -94,6 +95,7 @@
 			files = (
 				A2AF92042DED908C007B35D6 /* OpenAI in Frameworks */,
 				A2AF92072DED90AD007B35D6 /* Sparkle in Frameworks */,
+				A2AE4ED02DEF6B4700BAE728 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +162,7 @@
 			packageProductDependencies = (
 				A2AF92032DED908C007B35D6 /* OpenAI */,
 				A2AF92062DED90AD007B35D6 /* Sparkle */,
+				A2AE4ECF2DEF6B4700BAE728 /* KeyboardShortcuts */,
 			);
 			productName = Justsayit;
 			productReference = A2AF91B12DED875D007B35D6 /* Justsayit.app */;
@@ -246,6 +249,7 @@
 			packageReferences = (
 				A2AF92022DED908C007B35D6 /* XCRemoteSwiftPackageReference "OpenAI" */,
 				A2AF92052DED90AD007B35D6 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				A2AE4ECE2DEF6B4700BAE728 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A2AF91B22DED875D007B35D6 /* Products */;
@@ -628,6 +632,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A2AE4ECE2DEF6B4700BAE728 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.0;
+			};
+		};
 		A2AF92022DED908C007B35D6 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
@@ -647,6 +659,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A2AE4ECF2DEF6B4700BAE728 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2AE4ECE2DEF6B4700BAE728 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
 		A2AF92032DED908C007B35D6 /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A2AF92022DED908C007B35D6 /* XCRemoteSwiftPackageReference "OpenAI" */;

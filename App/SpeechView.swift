@@ -66,7 +66,7 @@ class SpeechViewModel {
                 NSWorkspace.shared.open(
                     URL(
                         string:
-                            "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+                        "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
                     )!
                 )
             }

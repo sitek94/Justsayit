@@ -38,6 +38,9 @@ struct JustsayitApp: App {
         Settings {
             SettingsView()
                 .environment(appSettings)
+                .toolbar(removing: .title)
+                .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
+                .containerBackground(.regularMaterial, for: .window)
         }
     }
 }
