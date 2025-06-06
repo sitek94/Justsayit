@@ -1,5 +1,5 @@
-import SwiftUI
 import KeyboardShortcuts
+import SwiftUI
 
 extension KeyboardShortcuts.Name {
     static let toggleRecording = Self("toggleRecording")

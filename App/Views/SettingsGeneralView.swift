@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsGeneralView: View {
     @Environment(AppSettings.self) private var appSettings
+    @Environment(UpdaterService.self) private var updaterService
 
     var body: some View {
         @Bindable var settings = appSettings
@@ -33,17 +34,9 @@ struct SettingsGeneralView: View {
                     Text("Update application")
                     Spacer()
                     Button("Check for Updates...") {
-                        // Action for checking updates
+                        updaterService.checkForUpdates()
                     }
-                }
-                HStack {
-                    Toggle(isOn: $settings.automaticallyCheckForUpdates) {
-                        Text("Automatically check for updates")
-                    }
-                    .controlSize(.large)
-                    Spacer()
-                    Image(systemName: "questionmark.circle")
-                        .foregroundColor(.gray)
+                    .disabled(!updaterService.canCheckForUpdates)
                 }
                 HStack {
                     Toggle(isOn: $settings.launchOnLogin) {

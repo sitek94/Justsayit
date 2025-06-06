@@ -55,7 +55,7 @@ class SpeechViewModel {
 
     func bringToBack() {
         if let window = NSApp.windows.first(where: { $0.title == "main" }) {
-        window.orderOut(nil)
+            window.orderOut(nil)
         }
     }
 
@@ -164,9 +164,9 @@ struct ContentView: View {
         }
         .onGlobalKeyboardShortcut(.toggleRecording, type: .keyDown) {
             Task {
-               let isRecording = viewModel.state == .recording
+                let isRecording = viewModel.state == .recording
                 if isRecording {
-                   await viewModel.stopRecording()
+                    await viewModel.stopRecording()
                     viewModel.bringToBack()
                 } else {
                     viewModel.bringToFront()

@@ -1,47 +1,40 @@
+import KeyboardShortcuts
 import Sparkle
 import SwiftUI
-import KeyboardShortcuts
 
 @main
 struct JustsayitApp: App {
     @Environment(\.openSettings) private var openSettings
     @Environment(\.openWindow) private var openWindow
-    
-    @State private var appSettings = AppSettings()
-    private let updaterController: SPUStandardUpdaterController
 
-    init() {
-        updaterController = SPUStandardUpdaterController(
-            startingUpdater: true,
-            updaterDelegate: nil,
-            userDriverDelegate: nil
-        )
-    }
-    
+    @State private var appSettings = AppSettings()
+    @State private var updaterService = UpdaterService()
+
     var body: some Scene {
         MenuBarExtra("Justsayit", systemImage: "mic") {
             Button("Show Main Window") {
                 openWindow(id: "main")
             }
             .keyboardShortcut("m")
-            
+
             Divider()
-            
+
             Button("Settings") {
                 openSettings()
             }
             .keyboardShortcut(",")
-            
+
             Button("Quit") {
                 NSApp.terminate(nil)
             }
             .keyboardShortcut("q")
         }
         .menuBarExtraStyle(.menu)
-        
+
         Window("main", id: "main") {
             ContentView()
                 .environment(appSettings)
+                .environment(updaterService)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
                 .containerBackground(.regularMaterial, for: .window)
@@ -63,6 +56,7 @@ struct JustsayitApp: App {
         Settings {
             SettingsView()
                 .environment(appSettings)
+                .environment(updaterService)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
                 .containerBackground(.regularMaterial, for: .window)

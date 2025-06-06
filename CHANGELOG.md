@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.4
+
+### Added
+
+- Handle automatic updates using Sparkle.
+
 ## 0.0.3
 
 ### Added
