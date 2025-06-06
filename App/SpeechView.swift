@@ -6,7 +6,7 @@ enum SpeechState: Equatable {
     case transcribing
     case processing
     case outputting
-    case error(String)
+    case error(SpeechError)
 }
 
 @MainActor @Observable
@@ -90,7 +90,9 @@ class SpeechViewModel {
             state = .recording
 
         } catch {
-            state = .error(error.localizedDescription)
+            let speechError = SpeechError(from: error)
+            Logger.error(speechError, category: "SpeechViewModel")
+            state = .error(speechError)
         }
     }
 
@@ -118,7 +120,9 @@ class SpeechViewModel {
 
             state = .idle
         } catch {
-            state = .error(error.localizedDescription)
+            let speechError = SpeechError(from: error)
+            Logger.error(speechError, category: "SpeechViewModel")
+            state = .error(speechError)
         }
     }
 }
@@ -222,7 +226,8 @@ struct AudioVisualization: View {
 
     private var description: String {
         switch state {
-        case let .error(error): error
+        case let .error(error):
+            return error.localizedDescription
         default: ""
         }
     }
