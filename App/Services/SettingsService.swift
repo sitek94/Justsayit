@@ -1,13 +1,8 @@
 import Foundation
 import Observation
 
-@Observable
-class SettingsService {
-    // MARK: - Properties
-
+actor SettingsService {
     private let keychainManager: KeychainManager
-
-    // MARK: - Initialization
 
     init() {
         guard let bundleID = Bundle.main.bundleIdentifier else {

@@ -56,7 +56,7 @@ enum SettingsSection: String, CaseIterable, Identifiable, Codable {
 }
 
 struct SettingsView: View {
-    @Environment(SettingsService.self) private var settingsService
+    let settingsService: SettingsService
 
     @State private var selection: SettingsSection? = .general
 
@@ -95,7 +95,6 @@ struct SettingsView: View {
     @State @Previewable var settingsService = SettingsService()
     @State @Previewable var updaterService = UpdaterService()
 
-    SettingsView().environment(appSettings)
-        .environment(settingsService)
+    SettingsView(settingsService: settingsService).environment(appSettings)
         .environment(updaterService)
 }

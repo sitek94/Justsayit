@@ -19,9 +19,9 @@ class SpeechViewModel {
     private let outputService = OutputService()
     private let aiProcessingService = AIProcessingService()
 
-    init(_ settings: AppSettings) {
-        appSettings = settings
-        transcriptionService = OpenAITranscriptionService(apiKey: settings.openaiApiKey)
+    init(appSettings: AppSettings, settingsService: SettingsService) {
+        self.appSettings = appSettings
+        transcriptionService = OpenAITranscriptionService(settingsService)
     }
 
     var state: SpeechState = .idle
@@ -130,10 +130,19 @@ class SpeechViewModel {
 // MARK: - ContentView
 
 struct ContentView: View {
-    @Environment(AppSettings.self) var appSettings
+    let settingsService: SettingsService
+    let appSettings: AppSettings
 
     @State private var isCompact = false
-    @State private var viewModel = SpeechViewModel(AppSettings())
+    @State private var viewModel: SpeechViewModel
+    
+    init(appSettings: AppSettings, settingsService: SettingsService) {
+        self.settingsService = settingsService
+        self.appSettings = appSettings
+        self.viewModel = SpeechViewModel(appSettings: appSettings, settingsService: settingsService)
+    }
+    
+    
 
     var body: some View {
         VStack(spacing: 0) {
@@ -160,12 +169,6 @@ struct ContentView: View {
             .background(Color(NSColor.controlBackgroundColor))
         }
         .ignoresSafeArea(.all, edges: .top)
-        .task {
-            viewModel = SpeechViewModel(appSettings)
-        }
-        .onChange(of: appSettings.openaiApiKey) {
-            viewModel = SpeechViewModel(appSettings)
-        }
         .onGlobalKeyboardShortcut(.toggleRecording, type: .keyDown) {
             Task {
                 let isRecording = viewModel.state == .recording
@@ -228,15 +231,19 @@ struct AudioVisualization: View {
         switch state {
         case let .error(error):
             return error.localizedDescription
-        default: ""
+        default:
+            return ""
         }
     }
 }
 
 #Preview {
-    ContentView()
+    @State @Previewable var appSettings = AppSettings()
+    @State @Previewable var settingsService = SettingsService()
+    @State @Previewable var updaterService = UpdaterService()
+    
+    ContentView(appSettings: appSettings, settingsService: settingsService)
         .frame(maxWidth: 400, maxHeight: 120)
-        .environment(AppSettings())
         .toolbar(removing: .title)
         .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
         .containerBackground(.regularMaterial, for: .window)

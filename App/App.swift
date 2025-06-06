@@ -33,9 +33,7 @@ struct JustsayitApp: App {
         .menuBarExtraStyle(.menu)
 
         Window("main", id: "main") {
-            ContentView()
-                .environment(appSettings)
-                .environment(settingsService)
+            ContentView(appSettings: appSettings, settingsService: settingsService)
                 .environment(updaterService)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
@@ -56,9 +54,8 @@ struct JustsayitApp: App {
         .windowLevel(.floating)
 
         Settings {
-            SettingsView()
+            SettingsView(settingsService: settingsService)
                 .environment(appSettings)
-                .environment(settingsService)
                 .environment(updaterService)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)

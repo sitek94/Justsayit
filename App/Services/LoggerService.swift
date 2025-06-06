@@ -19,8 +19,7 @@ enum Logger {
     }
 
     static func error(_ error: Error, category: String = "Error") {
-        let errorMessage = "Caught an error: \(error.localizedDescription, privacy: .public). Full details: \(String(describing: error), privacy: .private(mask: .hash))"
-        logger(for: category).error("\(errorMessage)")
+        logger(for: category).error("Caught an error: \(error.localizedDescription, privacy: .public). Full details: \(String(describing: error), privacy: .private)")
     }
 
     static func error(_ message: String, category: String = "Error") {

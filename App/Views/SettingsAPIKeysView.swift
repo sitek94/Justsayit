@@ -11,9 +11,9 @@ class SettingsAPIKeysViewModel {
 
     var apiKeys: [APIKeyAccount: String] = [:]
 
-    func loadKeys() {
+    func loadKeys() async {
         for account in APIKeyAccount.allCases {
-            apiKeys[account] = settingsService.getAPIKey(for: account) ?? ""
+            apiKeys[account] = await settingsService.getAPIKey(for: account) ?? ""
         }
     }
 
@@ -22,7 +22,9 @@ class SettingsAPIKeysViewModel {
             get: { self.apiKeys[account, default: ""] },
             set: { newValue in
                 self.apiKeys[account] = newValue
-                self.settingsService.saveAPIKey(newValue, for: account)
+                Task {
+                    await self.settingsService.saveAPIKey(newValue, for: account)
+                }
             }
         )
     }
@@ -46,7 +48,9 @@ struct SettingsAPIKeysView: View {
             }
         }
         .formStyle(.grouped)
-        .onAppear(perform: viewModel.loadKeys)
+        .task {
+            await viewModel.loadKeys()
+        }
     }
 }
 
