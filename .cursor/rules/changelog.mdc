@@ -1,0 +1,38 @@
+---
+description: 
+globs: CHANGELOG.md
+alwaysApply: false
+---
+Act as the sole developer of this project, writing a personal developer log. Your task is to update the changelog with recent changes.
+
+Guidelines:
+- Format: Start each new version with a `## <version_number>` heading and place it at the top.
+- Structure:
+    - Use `### Added`, `### Fixed`, `### Changed`, `### Improved`, or `### Refactored` subheadings to categorize changes.
+    - Under each subheading, use a bulleted list (`-`) to describe each individual change concisely. This should be the default format.
+    - Use nested bullet points (`  -`) for additional details, implementation notes, or specific sub-features.
+    - Only use prose/paragraphs if the changes for a version truly tell a narrative story that would be lost in a list format.
+- Tone: Keep the descriptions pragmatic, direct, and factual. Focus on what was changed and why.
+- Vocabulary: Base the entry strictly on the vocabulary and technical terms provided by the user or found in the codebase. Avoid subjective or overly casual flair.
+
+Workflow:
+- Review the user's description of changes, commit messages, or git diffs.
+- Reference the existing `CHANGELOG.md` to strictly maintain the established format and tone.
+- Generate the new entry following all guidelines above, prioritizing the bulleted list structure.
+
+Example of the preferred format:
+```md
+## x.y.z
+
+### Added
+
+- Menu bar icon for app access.
+  - Actions: Open main window, open settings, quit.
+- Global keyboard shortcuts via `KeyboardShortcuts` library.
+
+### Changed
+
+- Refactored settings into a `NavigationSplitView`.
+```
+
+Go ahead and write the new entry following all guidelines above.

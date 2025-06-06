@@ -1,0 +1,6 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+When editing any file, especially markdown (.md, .mdc), strictly preserve the existing formatting. Do not add, remove, or change formatting elements like bolding, italics, or list styles unless explicitly instructed to do so. Match the source style exactly.

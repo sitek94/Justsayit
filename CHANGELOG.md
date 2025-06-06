@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.3
+
+### Added
+
+- Menu bar icon for app access, providing options to open the main window, settings, or quit.
+- Global keyboard shortcuts using the `KeyboardShortcuts` library to start/stop recording from any application.
+  - The main window automatically shows on recording start and hides after transcription is finished.
+
+### Changed
+
+- Refactored the settings view into a `NavigationSplitView`, organizing settings into General, API Keys, and Keyboard Shortcuts for a cleaner structure.
+
 ## 0.0.2
 
 Improved the settings view significantly - styled it and got it close to the final design. Most features are mocks for now, but the visual direction is clear.
@@ -10,7 +22,7 @@ Cleaned up permissions after struggling with paste-at-cursor implementation. Ini
 
 ## 0.0.1
 
-Initial release with basic [SuperWhisper](https://superwhisper.com)-like functionality:
+Initial release with basic [Superwhisper](https://superwhisper.com)-like functionality:
 - Press start to record audio (saves to app documents)
 - Sends audio to OpenAI for transcription
 - Passes through AI processing service (currently just a stub)
