@@ -7,6 +7,7 @@ enum AppWindow: String, CaseIterable {
     case recordingMini
     case settings
     case presets
+    case history
 
     var id: String {
         rawValue
@@ -24,6 +25,8 @@ enum AppWindow: String, CaseIterable {
             "Settings"
         case .presets:
             "Presets"
+        case .history:
+            "History"
         }
     }
 }

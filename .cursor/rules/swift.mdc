@@ -1,6 +1,6 @@
 ---
 description: Rules to follow when writing Swift code
-globs: "**/*.swift"
+globs: **/*.swift
 alwaysApply: false
 ---
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6
+
+Initialized history and presets views.
+
 ## 0.0.5
 
 ### Improvements

@@ -7,6 +7,19 @@ import SwiftUI
 struct JustsayitApp: App {
     @State private var updaterService = UpdaterService()
 
+    var sharedModelContainer: ModelContainer = {
+    let schema = Schema([
+        Preset.self,
+    ])
+    let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        do {
+            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }()
+
     var body: some Scene {
         MenuBarExtra(AppWindow.menuBar.title, systemImage: "mic") {
             AppMenuBar()
@@ -15,7 +28,7 @@ struct JustsayitApp: App {
 
         Window(AppWindow.recordingMini.title, id: AppWindow.recordingMini.id) {
             RecordingMiniView()
-                .modelContainer(for: Preset.self)
+                .modelContainer(sharedModelContainer)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
                 .containerBackground(.regularMaterial, for: .window)
@@ -36,7 +49,16 @@ struct JustsayitApp: App {
 
         Window(AppWindow.presets.title, id: AppWindow.presets.id) {
             PresetsView()
-                .modelContainer(for: Preset.self)
+                .modelContainer(sharedModelContainer)
+                .toolbar(removing: .title)
+                .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
+                .containerBackground(.regularMaterial, for: .window)
+        }
+        .windowResizability(.contentSize)
+
+        Window(AppWindow.history.title, id: AppWindow.history.id) {
+            HistoryView()
+                .modelContainer(sharedModelContainer)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
                 .containerBackground(.regularMaterial, for: .window)
@@ -45,6 +67,7 @@ struct JustsayitApp: App {
 
         Settings {
             SettingsView()
+                .modelContainer(sharedModelContainer)
                 .environment(updaterService)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)

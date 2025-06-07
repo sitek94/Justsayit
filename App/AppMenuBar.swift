@@ -11,6 +11,9 @@ struct AppMenuBar: View {
         Button("Presets") {
             openWindow(id: AppWindow.presets.id)
         }
+        Button("History") {
+            openWindow(id: AppWindow.history.id)
+        }
         SettingsLink {
             Text("Settings")
         }
