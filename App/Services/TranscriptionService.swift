@@ -29,21 +29,16 @@ enum TranscriptionError: LocalizedError {
 // MARK: - Transcription Service Protocol
 
 protocol TranscriptionService: Actor {
-    init(_ settingsService: SettingsService)
     func transcribe(audioURL: URL) async throws -> String
 }
 
 // MARK: - OpenAI Transcription Service
 
 actor OpenAITranscriptionService: TranscriptionService {
-    private let settingsService: SettingsService
-
-    init(_ settingsService: SettingsService) {
-        self.settingsService = settingsService
-    }
+    private let apiKeysService = ApiKeysService()
 
     func transcribe(audioURL: URL) async throws -> String {
-        guard let apiKey = await settingsService.getAPIKey(for: .openAI), !apiKey.isEmpty else {
+        guard let apiKey = await apiKeysService.getAPIKey(for: .openAI), !apiKey.isEmpty else {
             throw TranscriptionError.apiKeyMissing
         }
 

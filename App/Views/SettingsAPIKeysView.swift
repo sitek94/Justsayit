@@ -2,47 +2,37 @@ import SwiftUI
 
 @MainActor
 @Observable
-class SettingsAPIKeysViewModel {
-    let settingsService: SettingsService
+class SettingsApiKeysViewModel {
+    let apiKeyService = ApiKeysService()
 
-    init(settingsService: SettingsService) {
-        self.settingsService = settingsService
-    }
-
-    var apiKeys: [APIKeyAccount: String] = [:]
+    var apiKeys: [ApiKeyAccount: String] = [:]
 
     func loadKeys() async {
-        for account in APIKeyAccount.allCases {
-            apiKeys[account] = await settingsService.getAPIKey(for: account) ?? ""
+        for account in ApiKeyAccount.allCases {
+            apiKeys[account] = await apiKeyService.getAPIKey(for: account) ?? ""
         }
     }
 
-    func apiKeyBinding(for account: APIKeyAccount) -> Binding<String> {
+    func apiKeyBinding(for account: ApiKeyAccount) -> Binding<String> {
         Binding(
             get: { self.apiKeys[account, default: ""] },
             set: { newValue in
                 self.apiKeys[account] = newValue
                 Task {
-                    await self.settingsService.saveAPIKey(newValue, for: account)
+                    await self.apiKeyService.saveAPIKey(newValue, for: account)
                 }
             }
         )
     }
 }
 
-struct SettingsAPIKeysView: View {
-    let settingsService: SettingsService
-    @State private var viewModel: SettingsAPIKeysViewModel
-
-    init(settingsService: SettingsService) {
-        self.settingsService = settingsService
-        viewModel = SettingsAPIKeysViewModel(settingsService: settingsService)
-    }
+struct SettingsApiKeysView: View {
+    @State private var viewModel = SettingsApiKeysViewModel()
 
     var body: some View {
         Form {
             Section {
-                ForEach(APIKeyAccount.allCases) { account in
+                ForEach(ApiKeyAccount.allCases) { account in
                     SecureField(account.userFacingName, text: viewModel.apiKeyBinding(for: account))
                 }
             }
@@ -55,7 +45,5 @@ struct SettingsAPIKeysView: View {
 }
 
 #Preview {
-    @State @Previewable var settingsService = SettingsService()
-
-    SettingsAPIKeysView(settingsService: settingsService)
+    SettingsApiKeysView()
 }

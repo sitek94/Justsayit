@@ -1,6 +1,6 @@
 import Foundation
 
-enum SpeechError: Error, Equatable {
+enum RecordingError: Error, Equatable {
     case permissionDenied
     case recordingFailed(String)
     case transcriptionFailed(String)
@@ -13,7 +13,7 @@ enum SpeechError: Error, Equatable {
             switch permissionError {
             case .microphonePermissionDenied, .microphonePermissionRestricted:
                 self = .permissionDenied
-            case .configurationError(let message):
+            case let .configurationError(message):
                 self = .recordingFailed("Configuration Error: \(message)")
             }
         case let recorderError as AudioRecorderError:
@@ -30,15 +30,15 @@ enum SpeechError: Error, Equatable {
     var localizedDescription: String {
         switch self {
         case .permissionDenied:
-            return "Microphone permission was denied. Please grant it in System Settings."
-        case .recordingFailed(let reason):
-            return "Recording failed: \(reason)"
-        case .transcriptionFailed(let reason):
-            return "Transcription failed: \(reason)"
-        case .outputFailed(let reason):
-            return "Output failed: \(reason)"
-        case .unknown(let reason):
-            return "An unknown error occurred: \(reason)"
+            "Microphone permission was denied. Please grant it in System Settings."
+        case let .recordingFailed(reason):
+            "Recording failed: \(reason)"
+        case let .transcriptionFailed(reason):
+            "Transcription failed: \(reason)"
+        case let .outputFailed(reason):
+            "Output failed: \(reason)"
+        case let .unknown(reason):
+            "An unknown error occurred: \(reason)"
         }
     }
-} 
+}

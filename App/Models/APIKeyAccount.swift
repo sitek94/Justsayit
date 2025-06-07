@@ -1,6 +1,6 @@
 import Foundation
 
-enum APIKeyAccount: String, CaseIterable, Identifiable {
+enum ApiKeyAccount: String, CaseIterable, Identifiable {
     case openAI
     case groq
     case gemini

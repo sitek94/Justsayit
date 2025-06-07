@@ -4,42 +4,21 @@ import SwiftUI
 
 @main
 struct JustsayitApp: App {
-    @Environment(\.openSettings) private var openSettings
-    @Environment(\.openWindow) private var openWindow
-
-    @State private var appSettings = AppSettings()
-    @State private var settingsService = SettingsService()
     @State private var updaterService = UpdaterService()
 
     var body: some Scene {
-        MenuBarExtra("Justsayit", systemImage: "mic") {
-            Button("Show Main Window") {
-                openWindow(id: "main")
-            }
-            .keyboardShortcut("m")
-
-            Divider()
-
-            Button("Settings") {
-                openSettings()
-            }
-            .keyboardShortcut(",")
-
-            Button("Quit") {
-                NSApp.terminate(nil)
-            }
-            .keyboardShortcut("q")
+        MenuBarExtra(AppWindow.menuBar.title, systemImage: "mic") {
+            AppMenuBar()
         }
         .menuBarExtraStyle(.menu)
 
-        Window("main", id: "main") {
-            ContentView(appSettings: appSettings, settingsService: settingsService)
-                .environment(updaterService)
+        Window(AppWindow.recordingMini.title, id: AppWindow.recordingMini.id) {
+            RecordingMiniView()
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
                 .containerBackground(.regularMaterial, for: .window)
                 .onAppear {
-                    if let window = NSApp.windows.first(where: { $0.title == "main" }) {
+                    if let window = NSApp.windows.first(where: { $0.title == AppWindow.recordingMini.title }) {
                         // Hide window controls
                         window.standardWindowButton(.closeButton)?.isHidden = true
                         window.standardWindowButton(.miniaturizeButton)?.isHidden = true
@@ -54,8 +33,7 @@ struct JustsayitApp: App {
         .windowLevel(.floating)
 
         Settings {
-            SettingsView(settingsService: settingsService)
-                .environment(appSettings)
+            SettingsView()
                 .environment(updaterService)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)

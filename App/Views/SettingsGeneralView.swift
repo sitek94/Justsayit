@@ -1,15 +1,18 @@
 import SwiftUI
 
 struct SettingsGeneralView: View {
-    @Environment(AppSettings.self) private var appSettings
     @Environment(UpdaterService.self) private var updaterService
 
+    @AppStorage(SettingsKey.pasteResultText) private var pasteResultText = true
+    @AppStorage(SettingsKey.pushToTalkEnabled) private var pushToTalkEnabled = false
+    @AppStorage(SettingsKey.launchOnLogin) private var launchOnLogin = false
+    @AppStorage(SettingsKey.errorLoggingEnabled) private var errorLoggingEnabled = false
+
     var body: some View {
-        @Bindable var settings = appSettings
         Form {
             Section {
                 HStack {
-                    Toggle(isOn: $settings.pasteResultText) {
+                    Toggle(isOn: $pasteResultText) {
                         Text("Paste result text")
                     }
                     .controlSize(.large)
@@ -19,7 +22,7 @@ struct SettingsGeneralView: View {
                 }
 
                 HStack {
-                    Toggle(isOn: $settings.pushToTalkEnabled) {
+                    Toggle(isOn: $pushToTalkEnabled) {
                         Text("Push to Talk")
                     }
                     .controlSize(.large)
@@ -39,7 +42,7 @@ struct SettingsGeneralView: View {
                     .disabled(!updaterService.canCheckForUpdates)
                 }
                 HStack {
-                    Toggle(isOn: $settings.launchOnLogin) {
+                    Toggle(isOn: $launchOnLogin) {
                         Text("Launch on login")
                     }
                     .controlSize(.large)
@@ -48,7 +51,7 @@ struct SettingsGeneralView: View {
                         .foregroundColor(.gray)
                 }
                 HStack {
-                    Toggle(isOn: $settings.errorLoggingEnabled) {
+                    Toggle(isOn: $errorLoggingEnabled) {
                         Text("Error logging")
                     }
                     .controlSize(.large)
@@ -63,8 +66,7 @@ struct SettingsGeneralView: View {
 }
 
 #Preview {
-    @State @Previewable var previewSettings = AppSettings()
     @State @Previewable var updaterService = UpdaterService()
-    SettingsGeneralView().environment(previewSettings)
-        .environment(updaterService)
+
+    SettingsGeneralView().environment(updaterService)
 }
