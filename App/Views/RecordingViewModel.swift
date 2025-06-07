@@ -11,15 +11,27 @@ enum RecordingState: Equatable {
 
 @MainActor @Observable
 class RecordingViewModel {
+    var presets: [Preset]
+    var selectedPresetId: String?
+    var selectedPreset: Preset? {
+        presets.first { $0.id.uuidString == selectedPresetId }
+    }
+
     private let transcriptionService = OpenAITranscriptionService()
     private let audioRecorderService = AudioRecorderService()
     private let fileService = AudioFileService()
     private let outputService = OutputService()
-    private let aiProcessingService = AIProcessingService()
+    private let aiProcessingService = OpenAIProcessingService()
+
+    init(presets: [Preset]) {
+        self.presets = presets
+        selectedPresetId = UserDefaults.standard.string(forKey: SettingsKey.selectedPresetId)
+    }
 
     var state: RecordingState = .idle
     var recordingURL: URL?
     var transcription = ""
+
     var processedText = ""
     var isRecording: Bool { state == .recording }
 
@@ -105,8 +117,12 @@ class RecordingViewModel {
             state = .transcribing
             transcription = try await transcriptionService.transcribe(audioURL: recordingURL)
 
+            guard let selectedPreset else {
+                throw RecordingError.custom("No preset selected. Please create one in Settings.")
+            }
+
             state = .processing
-            processedText = aiProcessingService.process(transcription)
+            processedText = await aiProcessingService.process(transcription, with: selectedPreset.asSendable)
 
             state = .outputting
 

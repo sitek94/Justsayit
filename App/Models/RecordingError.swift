@@ -5,6 +5,7 @@ enum RecordingError: Error, Equatable {
     case recordingFailed(String)
     case transcriptionFailed(String)
     case outputFailed(String)
+    case custom(String)
     case unknown(String)
 
     init(from error: Error) {
@@ -37,6 +38,8 @@ enum RecordingError: Error, Equatable {
             "Transcription failed: \(reason)"
         case let .outputFailed(reason):
             "Output failed: \(reason)"
+        case let .custom(message):
+            message
         case let .unknown(reason):
             "An unknown error occurred: \(reason)"
         }

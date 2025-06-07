@@ -1,5 +1,6 @@
 import KeyboardShortcuts
 import Sparkle
+import SwiftData
 import SwiftUI
 
 @main
@@ -14,6 +15,7 @@ struct JustsayitApp: App {
 
         Window(AppWindow.recordingMini.title, id: AppWindow.recordingMini.id) {
             RecordingMiniView()
+                .modelContainer(for: Preset.self)
                 .toolbar(removing: .title)
                 .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
                 .containerBackground(.regularMaterial, for: .window)
@@ -31,6 +33,15 @@ struct JustsayitApp: App {
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
         .windowLevel(.floating)
+
+        Window(AppWindow.presets.title, id: AppWindow.presets.id) {
+            PresetsView()
+                .modelContainer(for: Preset.self)
+                .toolbar(removing: .title)
+                .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
+                .containerBackground(.regularMaterial, for: .window)
+        }
+        .windowResizability(.contentSize)
 
         Settings {
             SettingsView()

@@ -5,15 +5,14 @@ struct AppMenuBar: View {
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
-        Button("Show Mini Recorder") {
+        Button("Record") {
             openWindow(id: AppWindow.recordingMini.id)
         }
-        .keyboardShortcut("m")
-
-        Divider()
-
-        Button("Settings") {
-            openSettings()
+        Button("Presets") {
+            openWindow(id: AppWindow.presets.id)
+        }
+        SettingsLink {
+            Text("Settings")
         }
         .keyboardShortcut(",")
 

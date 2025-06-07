@@ -1,7 +1,10 @@
+import SwiftData
 import SwiftUI
 
 struct RecordingMiniView: View {
-    @State private var viewModel = RecordingViewModel()
+    @Query(sort: \Preset.name) private var presets: [Preset]
+
+    @State private var viewModel = RecordingViewModel(presets: [])
 
     var body: some View {
         VStack(spacing: 0) {
@@ -18,6 +21,15 @@ struct RecordingMiniView: View {
                 .disabled(viewModel.isButtonDisabled)
 
                 Spacer()
+
+                if !viewModel.presets.isEmpty {
+                    Picker("Preset", selection: $viewModel.selectedPresetId) {
+                        ForEach(viewModel.presets) { preset in
+                            Text(preset.name).tag(preset.id.uuidString as String?)
+                        }
+                    }
+                    .frame(width: 120)
+                }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
@@ -36,11 +48,18 @@ struct RecordingMiniView: View {
                 }
             }
         }
+        .onAppear {
+            viewModel.presets = presets
+        }
+        .onChange(of: presets) {
+            viewModel.presets = presets
+        }
     }
 }
 
 #Preview {
     RecordingMiniView()
+        .modelContainer(for: Preset.self, inMemory: true)
         .frame(maxWidth: 400, maxHeight: 120)
         .toolbar(removing: .title)
         .toolbarBackgroundVisibility(.hidden, for: .windowToolbar)
