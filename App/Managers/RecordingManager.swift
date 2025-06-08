@@ -13,8 +13,14 @@ final class RecordingManager {
     private let transcriptionService: TranscriptionService
     private let processingService: ProcessingService
     private let clipboardService: ClipboardService
-    
-    init(audioRecorderService: AudioRecorderService, storageService: RecordingStorageService, transcriptionService: TranscriptionService, processingService: ProcessingService, clipboardService: ClipboardService) {
+
+    init(
+        audioRecorderService: AudioRecorderService,
+        storageService: RecordingStorageService,
+        transcriptionService: TranscriptionService,
+        processingService: ProcessingService,
+        clipboardService: ClipboardService
+    ) {
         self.audioRecorderService = audioRecorderService
         self.storageService = storageService
         self.transcriptionService = transcriptionService
@@ -26,17 +32,22 @@ final class RecordingManager {
         let apiKeysService = ApiKeysService()
         let transcriptionService = OpenAITranscriptionService(apiKeysService: apiKeysService)
         let processingService = OpenAIProcessingService(apiKeysService: apiKeysService)
-        self.init(audioRecorderService: AudioRecorderService(), storageService: RecordingStorageService(), transcriptionService: transcriptionService, processingService: processingService, clipboardService: AppClipboardService())
+        self.init(
+            audioRecorderService: AudioRecorderService(),
+            storageService: RecordingStorageService(),
+            transcriptionService: transcriptionService,
+            processingService: processingService,
+            clipboardService: AppClipboardService()
+        )
     }
-
 
     func toggleRecording() async {
         do {
-        if isRecording {
-            try await stopAndProcessRecording()
-        } else {
-            try await startRecording()
-        }
+            if isRecording {
+                try await stopAndProcessRecording()
+            } else {
+                try await startRecording()
+            }
         } catch {
             // TODO: Handle it better
             print("Error: \(error)")
@@ -59,7 +70,7 @@ final class RecordingManager {
         print("Saving recording...")
         let savedRecording = try await storageService.save(temporaryURL: url, duration: elapsedTime, prompt: "")
         print("Saved recording: \(savedRecording)")
-        
+
         print("Start transcription...")
         let rawResult = try await transcriptionService.transcribe(audioURL: savedRecording.audioFileURL)
         print("Transcription successful: \(rawResult)")
@@ -67,7 +78,7 @@ final class RecordingManager {
         print("Start AI processing...")
         let processedResult = try await processingService.process(text: rawResult)
         print("Processing successful: \(processedResult)")
-        
+
         print("Pasting result at cursor...")
         try clipboardService.pasteAtCursor(processedResult)
 

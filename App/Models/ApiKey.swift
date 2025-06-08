@@ -16,8 +16,19 @@ enum ApiKey {
             }
         }
 
+//        var keychainAccountName: String {
+//            "\(AppConfig.bundleId).\(rawValue)"
+//        }
+
+        // TODO: Temporarily hardcoded for testing, remove once it's possible to edit the keychain
+        // in the settings
         var keychainAccountName: String {
-            "\(AppConfig.bundleId).\(self.rawValue)"
+            switch self {
+            case .openAI: "OPENAI_API_KEY"
+            case .groq: "GROQ_API_KEY"
+            case .gemini: "GEMINI_API_KEY"
+            case .anthropic: "ANTHROPIC_API_KEY"
+            }
         }
     }
 }

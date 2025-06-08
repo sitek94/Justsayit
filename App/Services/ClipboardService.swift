@@ -22,12 +22,10 @@ protocol ClipboardService {
     func pasteAtCursor(_ text: String) throws
 }
 
-
 // MARK: - Main Implementation
 
 @MainActor
 final class AppClipboardService: ClipboardService {
-
     func copy(_ text: String) {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(text, forType: .string)
@@ -35,7 +33,7 @@ final class AppClipboardService: ClipboardService {
 
     func pasteAtCursor(_ text: String) throws {
         copy(text)
-        
+
         guard hasAccessibilityPermissions() else {
             throw ClipboardError.permissionDenied
         }
@@ -64,7 +62,7 @@ final class AppClipboardService: ClipboardService {
         cmdDown?.flags = .maskCommand
         vDown?.flags = .maskCommand
         vUp?.flags = .maskCommand
-        
+
         cmdDown?.post(tap: .cghidEventTap)
         vDown?.post(tap: .cghidEventTap)
         vUp?.post(tap: .cghidEventTap)

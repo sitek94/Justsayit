@@ -2,7 +2,7 @@ import SwiftUI
 
 struct DebugView: View {
     private let clipboardService: ClipboardService = AppClipboardService()
-    
+
     @State private var output: String = ""
 
     var body: some View {
@@ -21,7 +21,7 @@ struct DebugView: View {
                     }
                 }
             }
-            
+
             ScrollView {
                 Text(output.isEmpty ? "No output yet." : output)
                     .font(.system(.body, design: .monospaced))

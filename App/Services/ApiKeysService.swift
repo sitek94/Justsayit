@@ -7,7 +7,7 @@ actor ApiKeysService {
     init(keychainService: KeychainService = KeychainService(service: AppConfig.bundleId)) {
         self.keychainService = keychainService
     }
-    
+
     func saveAPIKey(_ key: String, for provider: ApiKey.Provider) {
         do {
             try keychainService.save(

@@ -36,7 +36,6 @@ protocol TranscriptionService: Actor {
 // MARK: - OpenAI Transcription Service
 
 actor OpenAITranscriptionService: TranscriptionService {
-
     private let apiKeysService: ApiKeysService
 
     init(apiKeysService: ApiKeysService) {
@@ -55,7 +54,7 @@ actor OpenAITranscriptionService: TranscriptionService {
         }
 
         let openAI = OpenAI(apiToken: apiKey)
-        
+
         let query = AudioTranscriptionQuery(
             file: audioData,
             fileType: fileType,

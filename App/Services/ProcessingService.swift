@@ -38,7 +38,7 @@ actor OpenAIProcessingService: ProcessingService {
     init(apiKeysService: ApiKeysService) {
         self.apiKeysService = apiKeysService
     }
-    
+
     // TODO: dynamic system prompt and model
     private let systemPrompt = """
     You are a helpful assistant that processes raw speech-to-text transcription.
@@ -53,12 +53,12 @@ actor OpenAIProcessingService: ProcessingService {
         }
 
         let openAI = OpenAI(apiToken: apiKey)
-        
+
         let query = ChatQuery(
             messages: [
                 .init(role: .system, content: systemPrompt),
                 .init(role: .user, content: text),
-            ].compactMap{ $0 },
+            ].compactMap(\.self),
             model: Model.gpt4_1_mini
         )
 

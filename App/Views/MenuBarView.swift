@@ -32,8 +32,7 @@ struct MenuBarView: View {
 
 #Preview {
     let recordingManager = RecordingManager()
-    
+
     MenuBarView()
         .environment(recordingManager)
-        
 }

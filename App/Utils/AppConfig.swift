@@ -1,7 +1,6 @@
 import Foundation
 
 enum AppConfig {
-    
     // MARK: - Application Info
 
     static let appName: String = "Justsayit"

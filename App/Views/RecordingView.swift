@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RecordingView: View {
     @Environment(RecordingManager.self) var recordingManager
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Text(String(format: "%.2f", recordingManager.elapsedTime))
@@ -26,7 +26,7 @@ struct RecordingView: View {
 
 #Preview {
     let recordingManager = RecordingManager()
-    
+
     RecordingView()
         .environment(recordingManager)
 }

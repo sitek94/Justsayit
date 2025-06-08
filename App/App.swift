@@ -24,4 +24,3 @@ struct JustsayitApp: App {
         }
     }
 }
-
