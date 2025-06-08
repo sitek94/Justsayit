@@ -13,11 +13,9 @@ final actor AudioRecorderService {
     private var delegate: Delegate?
     private var stopContinuation: CheckedContinuation<URL, Error>?
 
-    init() {}
-
     private var timer: Timer?
     private let audioSettings: [String: Any] = [
-        AVFormatIDKey: Int(kAudioFormatMPEG4AAC), // Using AAC is a good default for macOS
+        AVFormatIDKey: Int(kAudioFormatLinearPCM),
         AVSampleRateKey: 44100.0,
         AVNumberOfChannelsKey: 1,
         AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
@@ -35,14 +33,7 @@ final actor AudioRecorderService {
         let tempDir = FileManager.default.temporaryDirectory
         let fileURL = tempDir.appendingPathComponent("temporaryRecording.caf")
 
-        let settings: [String: Any] = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVSampleRateKey: 44100.0,
-            AVNumberOfChannelsKey: 1,
-            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
-        ]
-
-        let recorder = try AVAudioRecorder(url: fileURL, settings: settings)
+        let recorder = try AVAudioRecorder(url: fileURL, settings: audioSettings)
         recorder.delegate = delegate // Use our helper class as the delegate
         recorder.record()
 
