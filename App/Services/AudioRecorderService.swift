@@ -1,108 +1,111 @@
-// import AVFoundation
-// import Foundation
+import Foundation
+import AVFoundation
 
-// // MARK: - Audio Recorder Error Types
+private let logger = Logger.make(category: "AudioRecorder")
 
-// enum AudioRecorderError: Error, LocalizedError {
-//     case setupFailed(String)
-//     case recordingFailed(String)
-//     case missingRecordingURL
-//     case alreadyRecording
-//     case notRecording
 
-//     var errorDescription: String? {
-//         switch self {
-//         case let .setupFailed(reason):
-//             "Recorder setup failed: \(reason)"
-//         case let .recordingFailed(reason):
-//             "Recording failed: \(reason)"
-//         case .missingRecordingURL:
-//             "Missing recording URL"
-//         case .alreadyRecording:
-//             "Already recording"
-//         case .notRecording:
-//             "Not currently recording"
-//         }
-//     }
-// }
+actor AudioRecorder {
+    private var audioRecorder: AVAudioRecorder?
+    private var timer: Timer?
+    private var stopContinuation: CheckedContinuation<URL?, Error>?
+    
+    private let audioSettings: [String: Any] = [
+        AVFormatIDKey: Int(kAudioFormatMPEG4AAC), // Using AAC is a good default for macOS
+        AVSampleRateKey: 44100.0,
+        AVNumberOfChannelsKey: 1,
+        AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+    ]
+    
+    // MARK: - Public Methods
+    
+    func startRecording() throws -> URL {
+        
+        let tempDir = FileManager.default.temporaryDirectory
+        let fileURL = tempDir.appendingPathComponent("temporaryRecording.caf")
+        
+        do {
+            audioRecorder = try AVAudioRecorder(url: fileURL, settings: audioSettings)
+            audioRecorder?.delegate = self
+            audioRecorder?.record()
+            
+            return fileURL
+        } catch {
+            logger.error("Failed to start recording: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    func stopRecording() async throws -> URL? {
+        guard let recorder = audioRecorder else {
+            logger.warning("Not recording. Ignoring request to stop.")
+            return nil
+        }
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            self.stopContinuation = continuation
+            recorder.stop()
+        }
+    }
 
-// // MARK: - Audio Recorder Service
+    var currentTime: TimeInterval {
+        audioRecorder?.currentTime ?? 0
+    }
 
-// actor AudioRecorderService {
-//     private var audioRecorder: AVAudioRecorder?
-//     private var isCurrentlyRecording = false
-//     private let permissionService = PermissionService()
+    var isRecording: Bool {
+        audioRecorder?.isRecording ?? false
+    }
 
-//     private let audioSettings: [String: Any] = [
-//         AVFormatIDKey: Int(kAudioFormatLinearPCM),
-//         AVSampleRateKey: 44100.0,
-//         AVNumberOfChannelsKey: 1,
-//         AVLinearPCMBitDepthKey: 16,
-//         AVLinearPCMIsBigEndianKey: false,
-//         AVLinearPCMIsFloatKey: false,
-//     ]
+    
+    // MARK: - Private Timer Methods
+    
+    // private func startTimer() {
+    //     stopTimer() // Ensure no other timers are running
+        
+    //     // A timer to update the elapsedTime property every 0.1 seconds
+    //     timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+    //         guard let self = self else { return }
 
-//     // MARK: - Recording Control
+    //         Task { @MainActor in
+    //             self.elapsedTime = self.audioRecorder?.currentTime ?? 0
+    //         }
+    //     }
+    // }
+    
+    // private func stopTimer() {
+    //     timer?.invalidate()
+    //     timer = nil
+    //     // Reset elapsedTime when the timer stops
+    //     elapsedTime = 0
+    // }
+}
 
-//     func startRecording(to url: URL) async throws {
-//         try await permissionService.requestMicrophonePermission()
 
-//         guard !isCurrentlyRecording else {
-//             throw AudioRecorderError.alreadyRecording
-//         }
+// MARK: - Delegate Conformance
+extension AudioRecorder: AVAudioRecorderDelegate {
+    
+    
+     nonisolated func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        Task { @MainActor in
+            
+            if flag {
+                logger.info("Recording finished successfully.")
+                self.stopContinuation?.resume(returning: recorder.url)
+            } else {
+                logger.error("Recording failed to finish successfully.")
+                self.stopContinuation?.resume(returning: nil)
+            }
+            self.stopContinuation = nil
+        }
+    }
+    
+    // Called if an encoding error occurs.
+    nonisolated func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
+            logger.error("Audio recorder encoding error: \(error?.localizedDescription ?? "unknown error")")
+            stopContinuation?.resume(throwing: error ?? AudioRecorderError.encodingFailed)
+    }
+}
 
-//         do {
-//             audioRecorder = try AVAudioRecorder(url: url, settings: audioSettings)
 
-//             guard let recorder = audioRecorder else {
-//                 throw AudioRecorderError.setupFailed("Failed to create recorder")
-//             }
-
-//             guard recorder.prepareToRecord() else {
-//                 throw AudioRecorderError.setupFailed("Failed to prepare recorder")
-//             }
-
-//             guard recorder.record() else {
-//                 throw AudioRecorderError.setupFailed("Failed to start recording")
-//             }
-
-//             isCurrentlyRecording = true
-
-//         } catch let error as AudioRecorderError {
-//             throw error
-//         } catch {
-//             throw AudioRecorderError.recordingFailed(error.localizedDescription)
-//         }
-//     }
-
-//     func stopRecording() async throws {
-//         guard isCurrentlyRecording else {
-//             throw AudioRecorderError.notRecording
-//         }
-
-//         audioRecorder?.stop()
-//         audioRecorder = nil
-//         isCurrentlyRecording = false
-//     }
-
-//     func cancelRecording() async {
-//         if isCurrentlyRecording {
-//             audioRecorder?.stop()
-//             audioRecorder = nil
-//             isCurrentlyRecording = false
-//         }
-//     }
-
-//     // MARK: - State Queries
-
-//     func getRecordingStatus() -> Bool {
-//         isCurrentlyRecording
-//     }
-
-//     func getCurrentRecordingTime() -> TimeInterval {
-//         guard isCurrentlyRecording, let recorder = audioRecorder else {
-//             return 0
-//         }
-//         return recorder.currentTime
-//     }
-// }
+enum AudioRecorderError: Error {
+    case encodingFailed
+}

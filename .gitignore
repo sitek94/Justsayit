@@ -4,6 +4,7 @@ Justsayit.xcodeproj/xcuserdata/
 Justsayit.xcodeproj/xcuserdatad/
 
 **/**/xcuserdata
+# xcuserdata/
 
 # Derived data, build products, and logs
 DerivedData/

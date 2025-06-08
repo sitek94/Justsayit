@@ -5,10 +5,17 @@ import SwiftUI
 @main
 struct JustsayitApp: App {
     @State private var updaterService = UpdaterService()
+
+    private let recordingManager = RecordingManager()
+   
+    init() {
+        
+    }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject()
                 .frame(minWidth: 400, minHeight: 400)
         }
         

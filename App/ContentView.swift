@@ -1,12 +1,18 @@
 import SwiftUI
 
 @MainActor
-class ContentViewModel: ObservableObject {
-    private let storageService = RecordingStorageService()
+@Observable
+class ContentViewModel {
 
     @Published var isRecording: Bool = false
+    @Published var elapsedTime: TimeInterval = 0
     @Published var statusMessage = "Ready to record."
     @Published var prompt = "Some test LLM prompt."
+
+    private let storageService = RecordingStorageService()
+    private let audioRecorderService = AudioRecorderService()
+    private var timer: Timer?
+    private var currentRecordingURL: URL?
 
     func toggleRecording(using recorder: AudioRecorder) {
         if isRecording {
@@ -49,6 +55,27 @@ class ContentViewModel: ObservableObject {
 
         print("Copy result to clipboard")
         print("Paste result at cursor")
+    }
+
+ private func startTimer() {
+        stopTimer() // Ensure no other timers are running
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            
+            Task { @MainActor in
+                self.elapsedTime = self.audioRecorderService.currentTime
+            }
+        }
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    deinit {
+        stopTimer()
     }
 }
 
