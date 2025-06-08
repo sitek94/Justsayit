@@ -10,6 +10,7 @@ final class RecordingManager {
     private let audioRecorderService = AudioRecorderService()
     private let storageService = RecordingStorageService()
     private let transcriptionService: TranscriptionService = OpenAITranscriptionService()
+    private let processingService: ProcessingService = OpenAIProcessingService()
     private var timer: Timer?
 
     func toggleRecording() async {
@@ -20,7 +21,7 @@ final class RecordingManager {
             try await startRecording()
         }
         } catch {
-            fatalError("handle me")
+            fatalError("TODO: Handle it bro")
         }
     }
 
@@ -36,15 +37,18 @@ final class RecordingManager {
         isRecording = false
 
         let url = try await audioRecorderService.stopRecording()
+        print("Saving recording...")
         let savedRecording = try await storageService.save(temporaryURL: url, duration: elapsedTime, prompt: "")
-        print("Saved recording")
+        print("Saved recording: \(savedRecording)")
         
+        print("Start transcription...")
         let rawResult = try await transcriptionService.transcribe(audioURL: savedRecording.audioFileURL)
         print("Transcription successful: \(rawResult)")
 
+        print("Start AI processing...")
+        let processedResult = try await processingService.process(text: rawResult)
+        print("Processing successful: \(processedResult)")
         
-        
-//        print("Start AI processing")
 //        print("Saver result to metadata")
 //
 //        print("Copy result to clipboard")

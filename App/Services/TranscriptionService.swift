@@ -35,6 +35,7 @@ protocol TranscriptionService: Actor {
 // MARK: - OpenAI Transcription Service
 
 actor OpenAITranscriptionService: TranscriptionService {
+    // TODO: API Key from keychain
     private let apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] ?? ""
 
     func transcribe(audioURL: URL) async throws -> String {
