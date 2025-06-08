@@ -19,6 +19,9 @@ struct RecordingView: View {
                     .background(recordingManager.isRecording ? Color.red : Color.blue)
                     .cornerRadius(12)
             }
+
+            Text(recordingManager.rawResult)
+            Text(recordingManager.processedResult)
         }
         .padding()
     }

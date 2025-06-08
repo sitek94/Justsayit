@@ -6,6 +6,8 @@ import Observation
 final class RecordingManager {
     private(set) var isRecording: Bool = false
     private(set) var elapsedTime: TimeInterval = 0
+    private(set) var rawResult = ""
+    private(set) var processedResult = ""
     private var timer: Timer?
 
     private let audioRecorderService: AudioRecorderService
@@ -72,11 +74,11 @@ final class RecordingManager {
         print("Saved recording: \(savedRecording)")
 
         print("Start transcription...")
-        let rawResult = try await transcriptionService.transcribe(audioURL: savedRecording.audioFileURL)
+        rawResult = try await transcriptionService.transcribe(audioURL: savedRecording.audioFileURL)
         print("Transcription successful: \(rawResult)")
 
         print("Start AI processing...")
-        let processedResult = try await processingService.process(text: rawResult)
+        processedResult = try await processingService.process(text: rawResult)
         print("Processing successful: \(processedResult)")
 
         print("Pasting result at cursor...")
