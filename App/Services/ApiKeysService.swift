@@ -1,10 +1,17 @@
 import Foundation
 import Observation
 
-actor ApiKeysService {
+protocol ApiKeysService: Actor {
+    init(keychainService: KeychainService)
+    func saveAPIKey(_ key: String, for provider: ApiKey.Provider)
+    func getAPIKey(for provider: ApiKey.Provider) -> String?
+    func deleteAPIKey(for provider: ApiKey.Provider)
+}
+
+actor DefaultApiKeysService: ApiKeysService {
     private let keychainService: KeychainService
 
-    init(keychainService: KeychainService = KeychainService(service: AppConfig.bundleId)) {
+    init(keychainService: KeychainService = DefaultKeychainService(service: AppConfig.bundleId)) {
         self.keychainService = keychainService
     }
 

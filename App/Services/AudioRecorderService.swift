@@ -8,7 +8,7 @@ enum AudioRecorderError: Error {
     case missingURL
 }
 
-final actor AudioRecorderService {
+actor AudioRecorderService {
     private var audioRecorder: AVAudioRecorder?
     private var delegate: Delegate?
     private var stopContinuation: CheckedContinuation<URL, Error>?

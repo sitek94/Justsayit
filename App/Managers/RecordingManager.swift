@@ -29,7 +29,7 @@ final class RecordingManager {
     }
 
     convenience init() {
-        let apiKeysService = ApiKeysService()
+        let apiKeysService = DefaultApiKeysService()
         let transcriptionService = OpenAITranscriptionService(apiKeysService: apiKeysService)
         let processingService = OpenAIProcessingService(apiKeysService: apiKeysService)
         self.init(
@@ -37,7 +37,7 @@ final class RecordingManager {
             storageService: RecordingStorageService(),
             transcriptionService: transcriptionService,
             processingService: processingService,
-            clipboardService: AppClipboardService()
+            clipboardService: DefaultClipboardService()
         )
     }
 

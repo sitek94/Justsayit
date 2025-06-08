@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct DebugView: View {
-    private let clipboardService: ClipboardService = AppClipboardService()
+    private let clipboardService: ClipboardService = DefaultClipboardService()
 
     @State private var output: String = ""
 

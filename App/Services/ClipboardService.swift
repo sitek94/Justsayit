@@ -25,7 +25,7 @@ protocol ClipboardService {
 // MARK: - Main Implementation
 
 @MainActor
-final class AppClipboardService: ClipboardService {
+final class DefaultClipboardService: ClipboardService {
     func copy(_ text: String) {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(text, forType: .string)

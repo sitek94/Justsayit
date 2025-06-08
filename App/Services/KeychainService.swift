@@ -8,7 +8,15 @@ enum KeychainError: Error {
     case duplicateItem
 }
 
-class KeychainService {
+protocol KeychainService {
+    init(service: String)
+    func save(password: String, account: String) throws
+    func retrieve(account: String) throws -> Data?
+    func delete(account: String) throws
+    func retrievePassword(account: String) -> String?
+}
+
+final class DefaultKeychainService: KeychainService {
     private let service: String
 
     init(service: String) {
