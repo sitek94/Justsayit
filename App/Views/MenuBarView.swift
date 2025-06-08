@@ -1,19 +1,15 @@
 import SwiftUI
 
-struct AppMenuBar: View {
+struct MenuBarView: View {
     @Environment(\.openSettings) private var openSettings
     @Environment(\.openWindow) private var openWindow
+    @Environment(RecordingManager.self) var recordingManager
 
     var body: some View {
-        Button("Record") {
-            openWindow(id: AppWindow.recordingMini.id)
+        Button(recordingManager.isRecording ? "Stop Recording" : "Start Recording") {
+            Task { await recordingManager.toggleRecording() }
         }
-        Button("Presets") {
-            openWindow(id: AppWindow.presets.id)
-        }
-        Button("History") {
-            openWindow(id: AppWindow.history.id)
-        }
+
         SettingsLink {
             Text("Settings")
         }
@@ -27,5 +23,9 @@ struct AppMenuBar: View {
 }
 
 #Preview {
-    AppMenuBar()
+    let recordingManager = RecordingManager()
+    
+    MenuBarView()
+        .environment(recordingManager)
+        
 }

@@ -1,47 +1,65 @@
-import Foundation
 import AVFoundation
+import Foundation
 
 private let logger = Logger.make(category: "AudioRecorder")
 
+enum AudioRecorderError: Error {
+    case encodingFailed
+    case missingURL
+}
 
-actor AudioRecorder {
+final actor AudioRecorderService {
     private var audioRecorder: AVAudioRecorder?
+    private var delegate: Delegate?
+    private var stopContinuation: CheckedContinuation<URL, Error>?
+
+    init() {}
+
     private var timer: Timer?
-    private var stopContinuation: CheckedContinuation<URL?, Error>?
-    
     private let audioSettings: [String: Any] = [
         AVFormatIDKey: Int(kAudioFormatMPEG4AAC), // Using AAC is a good default for macOS
         AVSampleRateKey: 44100.0,
         AVNumberOfChannelsKey: 1,
-        AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
     ]
-    
+
     // MARK: - Public Methods
-    
+
+    // This is an actor method, so it's safely isolated.
     func startRecording() throws -> URL {
-        
+        // Lazy initialize delegate the first time `startRecording` runs
+        if delegate == nil {
+            delegate = Delegate(owner: self)
+        }
+
         let tempDir = FileManager.default.temporaryDirectory
         let fileURL = tempDir.appendingPathComponent("temporaryRecording.caf")
-        
-        do {
-            audioRecorder = try AVAudioRecorder(url: fileURL, settings: audioSettings)
-            audioRecorder?.delegate = self
-            audioRecorder?.record()
-            
-            return fileURL
-        } catch {
-            logger.error("Failed to start recording: \(error.localizedDescription)")
-            throw error
-        }
+
+        let settings: [String: Any] = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 44100.0,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
+        ]
+
+        let recorder = try AVAudioRecorder(url: fileURL, settings: settings)
+        recorder.delegate = delegate // Use our helper class as the delegate
+        recorder.record()
+
+        audioRecorder = recorder
+        return fileURL
     }
-    
-    func stopRecording() async throws -> URL? {
-        guard let recorder = audioRecorder else {
-            logger.warning("Not recording. Ignoring request to stop.")
-            return nil
-        }
-        
-        return try await withCheckedThrowingContinuation { continuation in
+
+    // This is also isolated. No two calls can race.
+    func stopRecording() async throws -> URL {
+        // This is a beautiful, modern way to handle delegate callbacks.
+        try await withCheckedThrowingContinuation { continuation in
+            guard let recorder = self.audioRecorder else {
+                // If there's no recorder, there's nothing to stop.
+                // You could throw an error or handle it as needed.
+                continuation.resume(throwing: AudioRecorderError.missingURL)
+                return
+            }
             self.stopContinuation = continuation
             recorder.stop()
         }
@@ -55,57 +73,42 @@ actor AudioRecorder {
         audioRecorder?.isRecording ?? false
     }
 
-    
     // MARK: - Private Timer Methods
-    
-    // private func startTimer() {
-    //     stopTimer() // Ensure no other timers are running
-        
-    //     // A timer to update the elapsedTime property every 0.1 seconds
-    //     timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-    //         guard let self = self else { return }
 
-    //         Task { @MainActor in
-    //             self.elapsedTime = self.audioRecorder?.currentTime ?? 0
-    //         }
-    //     }
-    // }
-    
-    // private func stopTimer() {
-    //     timer?.invalidate()
-    //     timer = nil
-    //     // Reset elapsedTime when the timer stops
-    //     elapsedTime = 0
-    // }
-}
+    // This method will be safely called by our delegate.
+    private func recordingFinished(url: URL) {
+        // We resume the paused stopRecording() function, returning the URL.
+        stopContinuation?.resume(returning: url)
+        stopContinuation = nil
+    }
 
+    private func recordingFailed(error: Error) {
+        stopContinuation?.resume(throwing: error)
+        stopContinuation = nil
+    }
 
-// MARK: - Delegate Conformance
-extension AudioRecorder: AVAudioRecorderDelegate {
-    
-    
-     nonisolated func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        Task { @MainActor in
-            
+    // --- The Delegate Helper Class ---
+    // This is a private class that can be an NSObject and handle the delegate protocol.
+    private final class Delegate: NSObject, AVAudioRecorderDelegate {
+        let owner: AudioRecorderService
+
+        init(owner: AudioRecorderService) {
+            self.owner = owner
+        }
+
+        func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
             if flag {
-                logger.info("Recording finished successfully.")
-                self.stopContinuation?.resume(returning: recorder.url)
+                // We safely call back to the actor.
+                Task { await owner.recordingFinished(url: recorder.url) }
             } else {
-                logger.error("Recording failed to finish successfully.")
-                self.stopContinuation?.resume(returning: nil)
+                let error = AudioRecorderError.encodingFailed // Or some other error
+                Task { await owner.recordingFailed(error: error) }
             }
-            self.stopContinuation = nil
+        }
+
+        func audioRecorderEncodeErrorDidOccur(_: AVAudioRecorder, error: Error?) {
+            let errorToThrow = error ?? AudioRecorderError.encodingFailed
+            Task { await owner.recordingFailed(error: errorToThrow) }
         }
     }
-    
-    // Called if an encoding error occurs.
-    nonisolated func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
-            logger.error("Audio recorder encoding error: \(error?.localizedDescription ?? "unknown error")")
-            stopContinuation?.resume(throwing: error ?? AudioRecorderError.encodingFailed)
-    }
-}
-
-
-enum AudioRecorderError: Error {
-    case encodingFailed
 }

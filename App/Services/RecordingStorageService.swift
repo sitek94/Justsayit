@@ -7,14 +7,13 @@ actor RecordingStorageService {
     private let metadataFileName = "metadata.json"
     private let recordingFileName = "recording.wav"
 
-    private let pathProvider = PathProvider()
     private let fileManager = FileManager.default
 
     func save(temporaryURL: URL, duration: TimeInterval, prompt: String) async throws -> Recording {
         logger.info("Attempting to save new recording...")
 
         do {
-            let recordingsDirectory = try pathProvider.getRecordingsDirectory()
+            let recordingsDirectory = try PathProvider.getRecordingsDirectory()
             logger.debug("Base recordings directory: \(recordingsDirectory.path)")
 
             let id = UUID()
@@ -55,7 +54,7 @@ actor RecordingStorageService {
         logger.info("Attempting to fetch all recordings...")
 
         do {
-            let recordingsDirectory = try pathProvider.getRecordingsDirectory()
+            let recordingsDirectory = try PathProvider.getRecordingsDirectory()
             logger.debug("Base recordings directory: \(recordingsDirectory.path)")
 
             let recordingSubdirectories = try fileManager.contentsOfDirectory(

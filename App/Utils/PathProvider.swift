@@ -1,10 +1,10 @@
 import Foundation
 
-struct PathProvider {
-    let appDirectory = "justsayit"
-    let recordingsDirectory = "recordings"
+enum PathProvider {
+    private static let appDirectory = "justsayit"
+    private static let recordingsDirectory = "recordings"
 
-    func getAppDirectory() throws -> URL {
+    static func getAppDirectory() throws -> URL {
         guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             throw NSError(
                 domain: "PathProvider",
@@ -20,7 +20,7 @@ struct PathProvider {
         return appDirectoryURL
     }
 
-    func getRecordingsDirectory() throws -> URL {
+    static func getRecordingsDirectory() throws -> URL {
         let appDirectoryURL = try getAppDirectory()
         let recordingsDirectoryURL = appDirectoryURL.appendingPathComponent(recordingsDirectory)
 
