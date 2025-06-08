@@ -6,15 +6,28 @@ import Observation
 final class RecordingManager {
     private(set) var isRecording: Bool = false
     private(set) var elapsedTime: TimeInterval = 0
-
-    // TODO: Inject these services to make it easier to test
-    private let audioRecorderService = AudioRecorderService()
-    private let storageService = RecordingStorageService()
-    private let transcriptionService: TranscriptionService = OpenAITranscriptionService()
-    private let processingService: ProcessingService = OpenAIProcessingService()
-    private let clipboardService: ClipboardService = AppClipboardService()
-    
     private var timer: Timer?
+
+    private let audioRecorderService: AudioRecorderService
+    private let storageService: RecordingStorageService
+    private let transcriptionService: TranscriptionService
+    private let processingService: ProcessingService
+    private let clipboardService: ClipboardService
+    
+    init(audioRecorderService: AudioRecorderService, storageService: RecordingStorageService, transcriptionService: TranscriptionService, processingService: ProcessingService, clipboardService: ClipboardService) {
+        self.audioRecorderService = audioRecorderService
+        self.storageService = storageService
+        self.transcriptionService = transcriptionService
+        self.processingService = processingService
+        self.clipboardService = clipboardService
+    }
+
+    convenience init() {
+        let apiKeysService = ApiKeysService()
+        let transcriptionService = OpenAITranscriptionService(apiKeysService: apiKeysService)
+        let processingService = OpenAIProcessingService(apiKeysService: apiKeysService)
+        self.init(audioRecorderService: AudioRecorderService(), storageService: RecordingStorageService(), transcriptionService: transcriptionService, processingService: processingService, clipboardService: AppClipboardService())
+    }
 
 
     func toggleRecording() async {

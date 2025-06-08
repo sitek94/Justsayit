@@ -26,14 +26,18 @@ enum ProcessingError: LocalizedError {
 // MARK: - Processing Service Protocol
 
 protocol ProcessingService: Actor {
+    init(apiKeysService: ApiKeysService)
     func process(text: String) async throws -> String
 }
 
 // MARK: - OpenAI Processing Service
 
 actor OpenAIProcessingService: ProcessingService {
-    // TODO: API Key from keychain
-    private let apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] ?? ""
+    private let apiKeysService: ApiKeysService
+
+    init(apiKeysService: ApiKeysService) {
+        self.apiKeysService = apiKeysService
+    }
     
     // TODO: dynamic system prompt and model
     private let systemPrompt = """
@@ -44,7 +48,7 @@ actor OpenAIProcessingService: ProcessingService {
     """
 
     func process(text: String) async throws -> String {
-        guard !apiKey.isEmpty else {
+        guard let apiKey = await apiKeysService.getAPIKey(for: .openAI) else {
             throw ProcessingError.apiKeyMissing
         }
 
