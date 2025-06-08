@@ -15,6 +15,14 @@ struct MenuBarView: View {
         }
         .keyboardShortcut(",")
 
+        Divider()
+
+        Button("Debug") {
+            openWindow(id: "debug")
+        }
+
+        Divider()
+
         Button("Quit") {
             NSApp.terminate(nil)
         }

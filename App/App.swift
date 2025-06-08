@@ -17,5 +17,11 @@ struct JustsayitApp: App {
             MenuBarView()
                 .environment(recordingManager)
         }
+
+        Window("Debug", id: "debug") {
+            DebugView()
+                .frame(minWidth: 400, minHeight: 400)
+        }
     }
 }
+

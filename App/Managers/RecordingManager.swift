@@ -7,11 +7,15 @@ final class RecordingManager {
     private(set) var isRecording: Bool = false
     private(set) var elapsedTime: TimeInterval = 0
 
+    // TODO: Inject these services to make it easier to test
     private let audioRecorderService = AudioRecorderService()
     private let storageService = RecordingStorageService()
     private let transcriptionService: TranscriptionService = OpenAITranscriptionService()
     private let processingService: ProcessingService = OpenAIProcessingService()
+    private let clipboardService: ClipboardService = AppClipboardService()
+    
     private var timer: Timer?
+
 
     func toggleRecording() async {
         do {
@@ -21,7 +25,9 @@ final class RecordingManager {
             try await startRecording()
         }
         } catch {
-            fatalError("TODO: Handle it bro")
+            // TODO: Handle it better
+            print("Error: \(error)")
+            print("Error details: \(error.localizedDescription)")
         }
     }
 
@@ -49,10 +55,10 @@ final class RecordingManager {
         let processedResult = try await processingService.process(text: rawResult)
         print("Processing successful: \(processedResult)")
         
-//        print("Saver result to metadata")
-//
-//        print("Copy result to clipboard")
-//        print("Paste result at cursor")
+        print("Pasting result at cursor...")
+        try clipboardService.pasteAtCursor(processedResult)
+
+        print("Done")
     }
 
     private func startTimer() {
